@@ -7,11 +7,11 @@
 //
 
 import UIKit
+import UIGridView
 
 class ViewController: UIViewController {
 
-    let _view: GridView = {
-        let view = GridView({
+    let _view: GridView = GridView(tracks: 2, {
             let view = UIView()
             view.backgroundColor = .red
             return view
@@ -31,10 +31,8 @@ class ViewController: UIViewController {
             let view = UIView()
             view.backgroundColor = .purple
             return view
-        }(), tracks: 2)
-        return view
-    }()
-    
+        }())
+ 
     override func loadView() {
         super.loadView()
         self.view = _view

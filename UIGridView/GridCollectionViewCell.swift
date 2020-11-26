@@ -8,8 +8,7 @@
 
 import UIKit
 
-class GridCollectionViewCell: UICollectionViewCell {
-    
+internal class GridCollectionViewCell: UICollectionViewCell {
     
     private var _view: UIView?
     

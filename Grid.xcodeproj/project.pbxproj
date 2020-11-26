@@ -15,9 +15,14 @@
 		739CCCB4256F43EF00CEA55E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 739CCCB2256F43EF00CEA55E /* LaunchScreen.storyboard */; };
 		739CCCBF256F43EF00CEA55E /* GridTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCBE256F43EF00CEA55E /* GridTests.swift */; };
 		739CCCCA256F43EF00CEA55E /* GridUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCC9256F43EF00CEA55E /* GridUITests.swift */; };
-		739CCCD8256F441700CEA55E /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCD7256F441700CEA55E /* GridLayout.swift */; };
-		739CCCDB256F451100CEA55E /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */; };
-		739CCCDD256F454B00CEA55E /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDC256F454B00CEA55E /* GridView.swift */; };
+		73FAC269256F989D0028FBF7 /* UIGridView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FAC260256F989D0028FBF7 /* UIGridView.framework */; };
+		73FAC270256F989D0028FBF7 /* UIGridViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 73FAC26F256F989D0028FBF7 /* UIGridViewTests.swift */; };
+		73FAC272256F989D0028FBF7 /* UIGridView.h in Headers */ = {isa = PBXBuildFile; fileRef = 73FAC262256F989D0028FBF7 /* UIGridView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		73FAC275256F989D0028FBF7 /* UIGridView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73FAC260256F989D0028FBF7 /* UIGridView.framework */; };
+		73FAC276256F989D0028FBF7 /* UIGridView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73FAC260256F989D0028FBF7 /* UIGridView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		73FAC27E256F98A80028FBF7 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */; };
+		73FAC27F256F98A80028FBF7 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCD7256F441700CEA55E /* GridLayout.swift */; };
+		73FAC280256F98A80028FBF7 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDC256F454B00CEA55E /* GridView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +40,42 @@
 			remoteGlobalIDString = 739CCCA3256F43EE00CEA55E;
 			remoteInfo = Grid;
 		};
+		73FAC26A256F989D0028FBF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 739CCC9C256F43EE00CEA55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73FAC25F256F989D0028FBF7;
+			remoteInfo = UIGridView;
+		};
+		73FAC26C256F989D0028FBF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 739CCC9C256F43EE00CEA55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 739CCCA3256F43EE00CEA55E;
+			remoteInfo = Grid;
+		};
+		73FAC273256F989D0028FBF7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 739CCC9C256F43EE00CEA55E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 73FAC25F256F989D0028FBF7;
+			remoteInfo = UIGridView;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		73FAC277256F989D0028FBF7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				73FAC276256F989D0028FBF7 /* UIGridView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		739CCCA4256F43EE00CEA55E /* Grid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grid.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -55,6 +95,13 @@
 		739CCCD7256F441700CEA55E /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
 		739CCCDC256F454B00CEA55E /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		73FAC260256F989D0028FBF7 /* UIGridView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIGridView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73FAC262256F989D0028FBF7 /* UIGridView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIGridView.h; sourceTree = "<group>"; };
+		73FAC263256F989D0028FBF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		73FAC268256F989D0028FBF7 /* UIGridViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UIGridViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		73FAC26F256F989D0028FBF7 /* UIGridViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIGridViewTests.swift; sourceTree = "<group>"; };
+		73FAC271256F989D0028FBF7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		73FAC281256F98D80028FBF7 /* Grid.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Grid.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				73FAC275256F989D0028FBF7 /* UIGridView.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +127,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73FAC25D256F989D0028FBF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73FAC265256F989D0028FBF7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73FAC269256F989D0028FBF7 /* UIGridView.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -88,6 +151,8 @@
 				739CCCA6256F43EE00CEA55E /* Grid */,
 				739CCCBD256F43EF00CEA55E /* GridTests */,
 				739CCCC8256F43EF00CEA55E /* GridUITests */,
+				73FAC261256F989D0028FBF7 /* UIGridView */,
+				73FAC26E256F989D0028FBF7 /* UIGridViewTests */,
 				739CCCA5256F43EE00CEA55E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -98,6 +163,8 @@
 				739CCCA4256F43EE00CEA55E /* Grid.app */,
 				739CCCBA256F43EF00CEA55E /* GridTests.xctest */,
 				739CCCC5256F43EF00CEA55E /* GridUITests.xctest */,
+				73FAC260256F989D0028FBF7 /* UIGridView.framework */,
+				73FAC268256F989D0028FBF7 /* UIGridViewTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -105,6 +172,7 @@
 		739CCCA6256F43EE00CEA55E /* Grid */ = {
 			isa = PBXGroup;
 			children = (
+				73FAC281256F98D80028FBF7 /* Grid.entitlements */,
 				739CCCD9256F44EA00CEA55E /* Grid */,
 				739CCCA7256F43EE00CEA55E /* AppDelegate.swift */,
 				739CCCA9256F43EE00CEA55E /* SceneDelegate.swift */,
@@ -138,14 +206,43 @@
 		739CCCD9256F44EA00CEA55E /* Grid */ = {
 			isa = PBXGroup;
 			children = (
-				739CCCD7256F441700CEA55E /* GridLayout.swift */,
-				739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */,
-				739CCCDC256F454B00CEA55E /* GridView.swift */,
 			);
 			path = Grid;
 			sourceTree = "<group>";
 		};
+		73FAC261256F989D0028FBF7 /* UIGridView */ = {
+			isa = PBXGroup;
+			children = (
+				739CCCD7256F441700CEA55E /* GridLayout.swift */,
+				739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */,
+				739CCCDC256F454B00CEA55E /* GridView.swift */,
+				73FAC262256F989D0028FBF7 /* UIGridView.h */,
+				73FAC263256F989D0028FBF7 /* Info.plist */,
+			);
+			path = UIGridView;
+			sourceTree = "<group>";
+		};
+		73FAC26E256F989D0028FBF7 /* UIGridViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				73FAC26F256F989D0028FBF7 /* UIGridViewTests.swift */,
+				73FAC271256F989D0028FBF7 /* Info.plist */,
+			);
+			path = UIGridViewTests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		73FAC25B256F989D0028FBF7 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73FAC272256F989D0028FBF7 /* UIGridView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		739CCCA3256F43EE00CEA55E /* Grid */ = {
@@ -155,10 +252,12 @@
 				739CCCA0256F43EE00CEA55E /* Sources */,
 				739CCCA1256F43EE00CEA55E /* Frameworks */,
 				739CCCA2256F43EE00CEA55E /* Resources */,
+				73FAC277256F989D0028FBF7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				73FAC274256F989D0028FBF7 /* PBXTargetDependency */,
 			);
 			name = Grid;
 			productName = Grid;
@@ -201,6 +300,43 @@
 			productReference = 739CCCC5256F43EF00CEA55E /* GridUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		73FAC25F256F989D0028FBF7 /* UIGridView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73FAC27C256F989D0028FBF7 /* Build configuration list for PBXNativeTarget "UIGridView" */;
+			buildPhases = (
+				73FAC25B256F989D0028FBF7 /* Headers */,
+				73FAC25C256F989D0028FBF7 /* Sources */,
+				73FAC25D256F989D0028FBF7 /* Frameworks */,
+				73FAC25E256F989D0028FBF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UIGridView;
+			productName = UIGridView;
+			productReference = 73FAC260256F989D0028FBF7 /* UIGridView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		73FAC267256F989D0028FBF7 /* UIGridViewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 73FAC27D256F989D0028FBF7 /* Build configuration list for PBXNativeTarget "UIGridViewTests" */;
+			buildPhases = (
+				73FAC264256F989D0028FBF7 /* Sources */,
+				73FAC265256F989D0028FBF7 /* Frameworks */,
+				73FAC266256F989D0028FBF7 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				73FAC26B256F989D0028FBF7 /* PBXTargetDependency */,
+				73FAC26D256F989D0028FBF7 /* PBXTargetDependency */,
+			);
+			name = UIGridViewTests;
+			productName = UIGridViewTests;
+			productReference = 73FAC268256F989D0028FBF7 /* UIGridViewTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -222,6 +358,13 @@
 						CreatedOnToolsVersion = 11.6;
 						TestTargetID = 739CCCA3256F43EE00CEA55E;
 					};
+					73FAC25F256F989D0028FBF7 = {
+						CreatedOnToolsVersion = 11.6;
+					};
+					73FAC267256F989D0028FBF7 = {
+						CreatedOnToolsVersion = 11.6;
+						TestTargetID = 739CCCA3256F43EE00CEA55E;
+					};
 				};
 			};
 			buildConfigurationList = 739CCC9F256F43EE00CEA55E /* Build configuration list for PBXProject "Grid" */;
@@ -240,6 +383,8 @@
 				739CCCA3256F43EE00CEA55E /* Grid */,
 				739CCCB9256F43EF00CEA55E /* GridTests */,
 				739CCCC4256F43EF00CEA55E /* GridUITests */,
+				73FAC25F256F989D0028FBF7 /* UIGridView */,
+				73FAC267256F989D0028FBF7 /* UIGridViewTests */,
 			);
 		};
 /* End PBXProject section */
@@ -269,6 +414,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73FAC25E256F989D0028FBF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73FAC266256F989D0028FBF7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -279,9 +438,6 @@
 				739CCCAC256F43EE00CEA55E /* ViewController.swift in Sources */,
 				739CCCA8256F43EE00CEA55E /* AppDelegate.swift in Sources */,
 				739CCCAA256F43EE00CEA55E /* SceneDelegate.swift in Sources */,
-				739CCCD8256F441700CEA55E /* GridLayout.swift in Sources */,
-				739CCCDD256F454B00CEA55E /* GridView.swift in Sources */,
-				739CCCDB256F451100CEA55E /* GridCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,6 +457,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		73FAC25C256F989D0028FBF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73FAC27E256F98A80028FBF7 /* GridCollectionViewCell.swift in Sources */,
+				73FAC280256F98A80028FBF7 /* GridView.swift in Sources */,
+				73FAC27F256F98A80028FBF7 /* GridLayout.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		73FAC264256F989D0028FBF7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73FAC270256F989D0028FBF7 /* UIGridViewTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -313,6 +487,21 @@
 			isa = PBXTargetDependency;
 			target = 739CCCA3256F43EE00CEA55E /* Grid */;
 			targetProxy = 739CCCC6256F43EF00CEA55E /* PBXContainerItemProxy */;
+		};
+		73FAC26B256F989D0028FBF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73FAC25F256F989D0028FBF7 /* UIGridView */;
+			targetProxy = 73FAC26A256F989D0028FBF7 /* PBXContainerItemProxy */;
+		};
+		73FAC26D256F989D0028FBF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 739CCCA3256F43EE00CEA55E /* Grid */;
+			targetProxy = 73FAC26C256F989D0028FBF7 /* PBXContainerItemProxy */;
+		};
+		73FAC274256F989D0028FBF7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 73FAC25F256F989D0028FBF7 /* UIGridView */;
+			targetProxy = 73FAC273256F989D0028FBF7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -453,7 +642,9 @@
 		739CCCCF256F43EF00CEA55E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Grid/Grid.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8AYMHH2W3E;
 				INFOPLIST_FILE = Grid/Info.plist;
@@ -463,6 +654,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.caophuocthanh.Grid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -471,7 +663,9 @@
 		739CCCD0256F43EF00CEA55E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Grid/Grid.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8AYMHH2W3E;
 				INFOPLIST_FILE = Grid/Info.plist;
@@ -481,6 +675,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.caophuocthanh.Grid;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -570,6 +765,102 @@
 			};
 			name = Release;
 		};
+		73FAC278256F989D0028FBF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8AYMHH2W3E;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = UIGridView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caophuocthanh.UIGridView;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		73FAC279256F989D0028FBF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 8AYMHH2W3E;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = UIGridView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caophuocthanh.UIGridView;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		73FAC27A256F989D0028FBF7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8AYMHH2W3E;
+				INFOPLIST_FILE = UIGridViewTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caophuocthanh.UIGridViewTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grid.app/Grid";
+			};
+			name = Debug;
+		};
+		73FAC27B256F989D0028FBF7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 8AYMHH2W3E;
+				INFOPLIST_FILE = UIGridViewTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.caophuocthanh.UIGridViewTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grid.app/Grid";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -605,6 +896,24 @@
 			buildConfigurations = (
 				739CCCD5256F43EF00CEA55E /* Debug */,
 				739CCCD6256F43EF00CEA55E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73FAC27C256F989D0028FBF7 /* Build configuration list for PBXNativeTarget "UIGridView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73FAC278256F989D0028FBF7 /* Debug */,
+				73FAC279256F989D0028FBF7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		73FAC27D256F989D0028FBF7 /* Build configuration list for PBXNativeTarget "UIGridViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				73FAC27A256F989D0028FBF7 /* Debug */,
+				73FAC27B256F989D0028FBF7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
