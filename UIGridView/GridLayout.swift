@@ -11,34 +11,17 @@ import UIKit
 internal protocol GirdLayoutDelegate: class {
     
     // MARK: - Required
-    func collectionViewLayout(for section: Int) -> GirdLayout.Layout
+    func collectionViewColumn(for section: Int) -> Int
     func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 }
 
 internal class GirdLayout: UICollectionViewLayout {
+    
     public static let automaticSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: .greatestFiniteMagnitude)
-    
-    public enum DistributionMethod {
         
-        case equal
-        case balanced
-    }
-    
-    public enum Layout {
-        case flow(column: Int)
-        case waterfall(column: Int, distributionMethod :DistributionMethod)
-        
-        var column: Int {
-            switch self {
-            case let .flow(column): return column
-            case let .waterfall(column, _): return column
-            }
-        }
-    }
-    
     public struct Const {
-        static let minimumLineSpacing: CGFloat = 10.0
-        static let minimumInteritemSpacing: CGFloat = 10.0
+        static let minimumLineSpacing: CGFloat = 0.0
+        static let minimumInteritemSpacing: CGFloat = 0.0
         static let sectionInset: UIEdgeInsets = .zero
         static let headerHeight: CGFloat = 0.0
         static let headerInset: UIEdgeInsets = .zero
@@ -99,7 +82,7 @@ internal class GirdLayout: UICollectionViewLayout {
         if numberOfSections == 0 { return }
         
         (0..<numberOfSections).forEach { section in
-            let columnCount = delegate.collectionViewLayout(for: section).column
+            let columnCount = delegate.collectionViewColumn(for: section)
             columnHeights.append(Array(repeating: 0.0, count: columnCount))
         }
         
@@ -172,7 +155,7 @@ internal class GirdLayout: UICollectionViewLayout {
     }
     
     private func layoutHeader(position: inout CGFloat, collectionView: UICollectionView,  delegate: GirdLayoutDelegate, section: Int) {
-        let columnCount = delegate.collectionViewLayout(for: section).column
+        let columnCount = delegate.collectionViewColumn(for: section)
         let headerHeight = self.headerHeight(for: section)
         let headerInset = self.headerInset(for: section)
         
@@ -200,22 +183,15 @@ internal class GirdLayout: UICollectionViewLayout {
                             delegate: GirdLayoutDelegate,
                             section: Int) -> Int {
         
-        let layout = delegate.collectionViewLayout(for: section)
-        switch layout {
-        case .flow:
-            let columnCount = delegate.collectionViewLayout(for: section).column
-            return itemIndex % columnCount
-        case .waterfall(_, let distributionMethod):
-            var minIndex: Int = 0
-            var minValue = CGFloat.greatestFiniteMagnitude
-            columnHeights[section].enumerated().forEach { (index, element) in
-                if element < minValue {
-                    minIndex = index
-                    minValue = element
-                }
+        var minIndex: Int = 0
+        var minValue = CGFloat.greatestFiniteMagnitude
+        columnHeights[section].enumerated().forEach { (index, element) in
+            if element < minValue {
+                minIndex = index
+                minValue = element
             }
-            return minIndex
         }
+        return minIndex
     }
     
     private func layoutItems(position: CGFloat, collectionView: UICollectionView, delegate: GirdLayoutDelegate, section: Int) {
@@ -223,7 +199,7 @@ internal class GirdLayout: UICollectionViewLayout {
         let minimumInteritemSpacing = self.minimumInteritemSpacing(for: section)
         let minimumLineSpacing = self.minimumInteritemSpacing(for: section)
         
-        let columnCount = delegate.collectionViewLayout(for: section).column
+        let columnCount = delegate.collectionViewColumn(for: section)
         let itemCount = collectionView.numberOfItems(inSection: section)
         let width = collectionView.bounds.width - (sectionInset.left + sectionInset.right)
         let itemWidth = floor((width - CGFloat(columnCount - 1) * minimumLineSpacing) / CGFloat(columnCount))
@@ -240,20 +216,14 @@ internal class GirdLayout: UICollectionViewLayout {
             
             if itemSize == GirdLayout.automaticSize {
                 itemHeight = cachedItemSizes[indexPath]?.height ?? 0
+            } else if itemSize.height == 0 && itemSize.width == 0 {
+                itemHeight = itemWidth
             } else {
                 cachedItemSizes[indexPath] = itemSize
                 itemHeight = itemSize.height
             }
             
-            
-            let offsetY: CGFloat
-            let layout = delegate.collectionViewLayout(for: section)
-            switch layout {
-            case .flow:
-                offsetY = index < columnCount ? position : columnHeights[section][columnIndex]
-            case .waterfall:
-                offsetY = columnHeights[section][columnIndex]
-            }
+            let offsetY: CGFloat = columnHeights[section][columnIndex]
             
             let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
             attributes.frame = CGRect(
@@ -264,15 +234,6 @@ internal class GirdLayout: UICollectionViewLayout {
             )
             itemAttributes.append(attributes)
             columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
-            
-            if case .flow = layout, index % columnCount == columnCount - 1 {
-                let maxHeight = columnHeights[section]
-                    .enumerated()
-                    .sorted {
-                        $0.element > $1.element
-                }.first?.element ?? 0.0
-                columnHeights[section] = Array(repeating: maxHeight, count: columnCount)
-            }
         }
         allItemAttributes.append(contentsOf: itemAttributes)
         sectionItemAttributes.append(itemAttributes)
@@ -281,7 +242,7 @@ internal class GirdLayout: UICollectionViewLayout {
     private func layoutFooter(position: inout CGFloat, collectionView: UICollectionView, delegate: GirdLayoutDelegate, section: Int) {
         let sectionInset = self.sectionInset(for: section)
         let minimumInteritemSpacing = self.minimumInteritemSpacing(for: section)
-        let columnCount = delegate.collectionViewLayout(for: section).column
+        let columnCount = delegate.collectionViewColumn(for: section)
         let longestColumnIndex = columnHeights[section].enumerated().sorted { $0.element > $1.element }.first?.offset ?? 0
         
         if columnHeights[section].count > 0 {

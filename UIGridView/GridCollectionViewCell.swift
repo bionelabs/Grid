@@ -29,6 +29,7 @@ internal class GridCollectionViewCell: UICollectionViewCell {
             }
         }
     }
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         self._view?.removeFromSuperview()

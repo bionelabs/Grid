@@ -17,36 +17,51 @@ extension NSObjectProtocol {
 public func Color(_ color: UIColor) -> Grid.Element {
     let view = UIView()
     view.backgroundColor = color
-    return Grid.Element.view((100.0, 100.0, view, UUID().uuidString))
+    return Grid.Element.view((view, 0, UUID().uuidString))
 }
 
-public func View(width: Float, height: Float, view: UIView) -> Grid.Element {
-    return Grid.Element.group(1, [(width, height, view, UUID().uuidString)])
+public func View(_ content: Grid.Content) -> Grid.Element {
+    switch content {
+    case .view(let view, let height):
+        return Grid.Element.view((view, height, UUID().uuidString))
+    case .square(let view):
+        return Grid.Element.view((view, 0, UUID().uuidString))
+    }
 }
 
-public func Group(tracks: Int = 1, _ views: (width: Float, height: Float, view: UIView)...) -> Grid.Element {
-    let contents: [Content] = views.map {
-        ($0.width, $0.height, $0.view, UUID().uuidString)
+public func Group(tracks: Int = 1, _ contents: Grid.Content...) -> Grid.Element {
+    let contents: [Grid.ContentView] = contents.map {
+        switch $0 {
+        case .view(let view, let height):
+            return (view, height, UUID().uuidString)
+        case .square(let view):
+            return (view, 0, UUID().uuidString)
+        }
     }
     return Grid.Element.group(tracks, contents)
 }
 
-public typealias Content = (width: Float, height: Float, view: UIView, identifier: String)
-
 public extension Grid {
+    
+    typealias ContentView = (view: UIView, height: Float, identifier: String)
+    
+    enum Content {
+        case view(UIView, Float)
+        case square(UIView)
+    }
     
     enum Element {
         case lineSpacing(Float)
         case interitemSpacing(Float)
-        case view(Content)
-        case group(Int, [Content])
+        case view(ContentView)
+        case group(Int, [ContentView])
         case sectionInset(UIEdgeInsets)
     }
 }
 
 public class Grid: UICollectionView {
     
-    private var views: [(Int, [Content])] = []
+    private var views: [(Int, [ContentView])] = []
     
     private var elements: [Element]
     
@@ -54,10 +69,10 @@ public class Grid: UICollectionView {
         self.elements = elements
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
         self.backgroundColor = .white
+        self.layout.estimatedItemSize = GirdLayout.automaticSize
         self.layout.headerHeight = 0
         self.setUpParamesters()
         self.setupCollectionView()
-        
     }
     
     private func setUpParamesters() {
@@ -117,13 +132,13 @@ extension Grid: UICollectionViewDelegate {
 }
 
 extension Grid: GirdLayoutDelegate {
-    
-    func collectionViewLayout(for section: Int) -> GirdLayout.Layout {
-        return .waterfall(column: self.views[section].0, distributionMethod: .balanced)
+
+    func collectionViewColumn(for section: Int) -> Int {
+        return self.views[section].0
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let view = self.views[indexPath.section].1[indexPath.row]
-        return CGSize(width: CGFloat(view.width), height: CGFloat(view.height))
+        return CGSize(width: 0, height: CGFloat(view.height))
     }
 }

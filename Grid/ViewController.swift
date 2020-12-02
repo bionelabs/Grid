@@ -9,11 +9,22 @@
 import UIKit
 import UIGridView
 
-class ABCView: UIView {
+class Header: UILabel {
+    
+    init(text: String) {
+        super.init(frame: .zero)
+        self.backgroundColor = UIColor.lightGray
+        self.textColor = .white
+        self.textAlignment = .center
+        self.text = text
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .purple
+        self.backgroundColor = UIColor.lightGray
+        self.textAlignment = .center
+        self.textColor = .white
+        self.text = "Header"
     }
     
     required init?(coder: NSCoder) {
@@ -21,7 +32,7 @@ class ABCView: UIView {
     }
 }
 
-class Header: UILabel {
+class Label: UILabel {
     
     init(text: String) {
         super.init(frame: .zero)
@@ -48,206 +59,30 @@ class ViewController: UIViewController {
         .interitemSpacing(0),
         .lineSpacing(0),
         .sectionInset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)),
-        View(width: 100, height: 50, view: Header(text: "Quick Access")),
+        View(
+            .view(Header(text: "HEADER"), 50)
+        ),
         Group(tracks: 3,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
+              .view(Label(text: "1"), 150),
+              .view(Label(text: "2"), 50),
+              .view(Label(text: "3"), 150),
+              .view(Label(text: "4"), 50),
+              .view(Label(text: "5"), 50)
         ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
+        Group(tracks: 4,
+              .square(Label(text: "75")),
+              .square(Label(text: "75")),
+              .square(Label(text: "75")),
+              .square(Label(text: "75"))
         ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
+        View(
+            .view(Header(text: "HEADER"), 50)
         ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 50, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
-        ),
-        Group(tracks: 6,
-              (width: 50, height: 50, view: Header(text: "1")),
-              (width: 50, height: 50, view: Header(text: "2")),
-              (width: 50, height: 50, view: Header(text: "3")),
-              (width: 50, height: 50, view: Header(text: "4")),
-              (width: 50, height: 50, view: Header(text: "5")),
-              (width: 50, height: 50, view: Header(text: "6"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "7")),
-              (width: 100, height: 100, view: Header(text: "8")),
-              (width: 100, height: 100, view: Header(text: "9"))
-        ),
-        View(width: 100, height: 40, view: Header(text: "Preview")),
-        Group(tracks: 3,
-              (width: 100, height: 100, view: Header(text: "10")),
-              (width: 100, height: 100, view: Header(text: "11")),
-              (width: 100, height: 100, view: Header(text: "12"))
+        Group(tracks: 4,
+              .square(Label(text: "75")),
+              .view(Label(text: "2"), 50),
+              .square(Label(text: "75")),
+              .view(Label(text: "2"), 50)
         )
     )
     
