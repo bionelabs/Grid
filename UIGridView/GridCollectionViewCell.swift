@@ -18,7 +18,6 @@ internal class GridCollectionViewCell: UICollectionViewCell {
         }
         set {
             if let view = newValue {
-                print("setup collectioncell:", self.frame)
                 self._view?.removeFromSuperview()
                 self.contentView.addSubview(view)
                 view.translatesAutoresizingMaskIntoConstraints = false
@@ -26,14 +25,18 @@ internal class GridCollectionViewCell: UICollectionViewCell {
                 view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
                 view.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
                 view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
+                self._view = newValue
             }
-            self._view = newValue
         }
+    }
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self._view?.removeFromSuperview()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.contentView.backgroundColor = .lightGray
+        self.contentView.backgroundColor = .clear
     }
     
     required init?(coder: NSCoder) {

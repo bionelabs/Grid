@@ -1,5 +1,5 @@
 //
-//  GridView.swift
+//  Grid.swift
 //  Grid
 //
 //  Created by Cao Phuoc Thanh on 11/26/20.
@@ -14,43 +14,74 @@ extension NSObjectProtocol {
     }
 }
 
-public class GridView: UICollectionView {
+public func Color(_ color: UIColor) -> Grid.Element {
+    let view = UIView()
+    view.backgroundColor = color
+    return Grid.Element.view((100.0, 100.0, view, UUID().uuidString))
+}
+
+public func View(width: Float, height: Float, view: UIView) -> Grid.Element {
+    return Grid.Element.group(1, [(width, height, view, UUID().uuidString)])
+}
+
+public func Group(tracks: Int = 1, _ views: (width: Float, height: Float, view: UIView)...) -> Grid.Element {
+    let contents: [Content] = views.map {
+        ($0.width, $0.height, $0.view, UUID().uuidString)
+    }
+    return Grid.Element.group(tracks, contents)
+}
+
+public typealias Content = (width: Float, height: Float, view: UIView, identifier: String)
+
+public extension Grid {
     
-    private let views: [UIView]
-    private let tracks: Int
+    enum Element {
+        case lineSpacing(Float)
+        case interitemSpacing(Float)
+        case view(Content)
+        case group(Int, [Content])
+        case sectionInset(UIEdgeInsets)
+    }
+}
+
+public class Grid: UICollectionView {
     
-    public required init(tracks: Int,_ views:(() -> [UIView])) {
-        self.tracks = tracks
-        self.views = views()
+    private var views: [(Int, [Content])] = []
+    
+    private var elements: [Element]
+    
+    public required init(_ elements: Element...) {
+        self.elements = elements
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
         self.backgroundColor = .white
+        self.layout.headerHeight = 0
+        self.setUpParamesters()
         self.setupCollectionView()
+        
     }
     
-    public required init(tracks: Int, _ views: UIView...) {
-        self.tracks = tracks
-        self.views = views
-        super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
-        self.backgroundColor = .white
-        self.setupCollectionView()
-    }
-    
-    required init(_ views: UIView...) {
-        self.views = views
-        self.tracks = 1
-        super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
-        self.backgroundColor = .white
-        self.setupCollectionView()
+    private func setUpParamesters() {
+        for param in self.elements {
+            switch param {
+            case .view(let value):
+                self.views.append((1, [value]))
+            case .interitemSpacing(let value):
+                self.layout.minimumInteritemSpacing = CGFloat(value)
+            case .lineSpacing(let value):
+                self.layout.minimumLineSpacing = CGFloat(value)
+            case .group(let tracks, let value):
+                self.views.append((tracks, value))
+            case .sectionInset(let value):
+                self.layout.sectionInset = value
+            }
+        }
+        
     }
     
     private func setupCollectionView() {
-        self.layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        self.layout.minimumLineSpacing = 2
-        self.layout.minimumInteritemSpacing = 2
-        self.layout.headerHeight = 40
         self.layout.delegate = self
-        self.views.forEach {
-            self.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: $0.className)
+        self.views.map{ $0.1 }.flatMap{ $0 }.forEach {
+            self.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: $0.identifier)
         }
         self.delegate = self
         self.dataSource = self
@@ -63,30 +94,36 @@ public class GridView: UICollectionView {
     }
 }
 
-extension GridView: UICollectionViewDataSource {
+extension Grid: UICollectionViewDataSource {
+    
+    public func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return self.views.count
+    }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: self.views[indexPath.row].className, for: indexPath) as! GridCollectionViewCell
-        cell.view = self.views[indexPath.row]
+        let view = self.views[indexPath.section].1[indexPath.row]
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: view.identifier, for: indexPath) as! GridCollectionViewCell
+        cell.view = view.view
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.views.count
+        return self.views[section].1.count
     }
 }
 
-extension GridView: UICollectionViewDelegate {
+extension Grid: UICollectionViewDelegate {
     
 }
 
-extension GridView: GirdLayoutDelegate {
+extension Grid: GirdLayoutDelegate {
     
     func collectionViewLayout(for section: Int) -> GirdLayout.Layout {
-        return .flow(column: self.tracks)
+        return .waterfall(column: self.views[section].0, distributionMethod: .balanced)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 100, height: 50)
+        let view = self.views[indexPath.section].1[indexPath.row]
+        return CGSize(width: CGFloat(view.width), height: CGFloat(view.height))
     }
 }
