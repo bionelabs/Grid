@@ -14,56 +14,23 @@ extension NSObjectProtocol {
     }
 }
 
-public func Color(_ color: UIColor) -> Grid.Element {
-    let view = UIView()
-    view.backgroundColor = color
-    return Grid.Element.view((view, 0, UUID().uuidString))
-}
-
-public func View(_ content: Grid.Content) -> Grid.Element {
-    switch content {
-    case .view(let view, let height):
-        return Grid.Element.view((view, height, UUID().uuidString))
-    case .square(let view):
-        return Grid.Element.view((view, 0, UUID().uuidString))
-    }
-}
-
-public func Group(tracks: Int = 1, _ contents: Grid.Content...) -> Grid.Element {
-    let contents: [Grid.ContentView] = contents.map {
-        switch $0 {
-        case .view(let view, let height):
-            return (view, height, UUID().uuidString)
-        case .square(let view):
-            return (view, 0, UUID().uuidString)
-        }
-    }
-    return Grid.Element.group(tracks, contents)
-}
-
-public extension Grid {
-    
-    typealias ContentView = (view: UIView, height: Float, identifier: String)
-    
-    enum Content {
-        case view(UIView, Float)
-        case square(UIView)
-    }
-    
-    enum Element {
-        case lineSpacing(Float)
-        case interitemSpacing(Float)
-        case view(ContentView)
-        case group(Int, [ContentView])
-        case sectionInset(UIEdgeInsets)
-    }
-}
-
 public class Grid: UICollectionView {
     
-    private var views: [(Int, [ContentView])] = []
+    private var views: [(Int, [GridContentView])] = []
     
     private var elements: [Element]
+    
+    
+    public required init(_ input: () -> [GridContentView]) {
+        let items = input()
+        self.elements = [Element.group(1, items)]
+        super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
+        self.backgroundColor = .white
+        self.layout.estimatedItemSize = GirdLayout.automaticSize
+        self.layout.headerHeight = 0
+        self.setUpParamesters()
+        self.setupCollectionView()
+    }
     
     public required init(_ elements: Element...) {
         self.elements = elements
@@ -73,6 +40,16 @@ public class Grid: UICollectionView {
         self.layout.headerHeight = 0
         self.setUpParamesters()
         self.setupCollectionView()
+    }
+    
+    public func load(_ elements: Element...) {
+        self.elements = elements
+        self.backgroundColor = .white
+        self.layout.estimatedItemSize = GirdLayout.automaticSize
+        self.layout.headerHeight = 0
+        self.setUpParamesters()
+        self.setupCollectionView()
+        self.reloadData()
     }
     
     private func setUpParamesters() {
@@ -116,9 +93,14 @@ extension Grid: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let view = self.views[indexPath.section].1[indexPath.row]
+        let view: GridContentView = self.views[indexPath.section].1[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: view.identifier, for: indexPath) as! GridCollectionViewCell
-        cell.view = view.view
+        switch view {
+        case let view as UIView:
+            cell.view = view
+        default:
+            break
+        }
         return cell
     }
     

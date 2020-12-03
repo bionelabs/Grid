@@ -24,15 +24,3 @@ public extension UIColor {
         )
     }
 }
-
-//public class ColorView: UIView {
-//
-//    public required init(_ color: UIColor) {
-//        super.init(frame: .zero)
-//        self.backgroundColor = color
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        fatalError("init(coder:) has not been implemented")
-//    }
-//}

@@ -9,22 +9,14 @@
 import UIKit
 import UIGridView
 
-class Header: UILabel {
+class Loabel: Grid.Label {
     
-    init(text: String) {
-        super.init(frame: .zero)
-        self.backgroundColor = UIColor.lightGray
-        self.textColor = .white
-        self.textAlignment = .center
-        self.text = text
+    required init(_ variables: Grid.Variable...) {
+        super.init(variables)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.lightGray
-        self.textAlignment = .center
-        self.textColor = .white
-        self.text = "Header"
+    required init(_ variables: [Grid.Variable]) {
+        super.init(variables)
     }
     
     required init?(coder: NSCoder) {
@@ -32,62 +24,62 @@ class Header: UILabel {
     }
 }
 
-class Label: UILabel {
-    
-    init(text: String) {
-        super.init(frame: .zero)
-        self.backgroundColor = UIColor.random
-        self.textAlignment = .center
-        self.text = text
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.backgroundColor = UIColor.random
-        self.textAlignment = .center
-        self.text = "Label"
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
 
 class ViewController: UIViewController {
     
-    let _view: Grid = Grid(
-        .interitemSpacing(0),
-        .lineSpacing(0),
-        .sectionInset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)),
-        View(
-            .view(Header(text: "HEADER"), 50)
-        ),
-        Group(tracks: 3,
-              .view(Label(text: "1"), 150),
-              .view(Label(text: "2"), 50),
-              .view(Label(text: "3"), 150),
-              .view(Label(text: "4"), 50),
-              .view(Label(text: "5"), 50)
-        ),
-        Group(tracks: 4,
-              .square(Label(text: "75")),
-              .square(Label(text: "75")),
-              .square(Label(text: "75")),
-              .square(Label(text: "75"))
-        ),
-        View(
-            .view(Header(text: "HEADER"), 50)
-        ),
-        Group(tracks: 4,
-              .square(Label(text: "75")),
-              .view(Label(text: "2"), 50),
-              .square(Label(text: "75")),
-              .view(Label(text: "2"), 50)
-        )
-    )
+    var _view: Grid!
+    
+    let button: Grid.Button = Grid.Button(.color(.orange), .title("Random Color"), .masksToBounds(true), .cornerRadius(50), .height(250))
+    
+    let header: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(50))
+    
+    let bael1: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+    let bael2: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+    let bael3: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+    let bael4: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+    let bael5: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+    let bael6: Loabel = Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+    
+    func buttonDidPress() {
+        print("asjkdalksjgflkjahsf")
+        
+        header.set(.color(.random))
+        
+        self.bael1.set(.color(.random))
+        self.bael2.set(.color(.random))
+        self.bael3.set(.color(.random))
+        self.bael4.set(.color(.random))
+        self.bael5.set(.color(.random))
+        self.bael6.set(.color(.random))
+    }
     
     override func loadView() {
         super.loadView()
+        
+        button.tap(self.buttonDidPress)
+        
+        self._view = Grid(
+            View(header),
+            Group(tracks: 3,
+                  button,
+                  bael1,
+                  bael2,
+                  bael3,
+                  bael4,
+                  bael5,
+                  bael6
+            ),
+            Group(tracks: 3,
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350))),
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350))),
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350))),
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350))),
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350))),
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350))),
+                  Loabel(.color(.random), .title("2"), .textAlignment(.center), .height(Float.random(in: 50...350)))
+            )
+        )
+        
         self.view = _view
     }
     
