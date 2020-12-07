@@ -89,9 +89,9 @@ internal class GirdLayout: UICollectionViewLayout {
         
         var position: CGFloat = 0.0
         (0..<numberOfSections).forEach { section in
-            //layoutHeader(position: &position, collectionView: collectionView, delegate: delegate, section: section)
+            layoutHeader(position: &position, collectionView: collectionView, delegate: delegate, section: section)
             layoutItems(position: position, collectionView: collectionView, delegate: delegate, section: section)
-            //layoutFooter(position: &position, collectionView: collectionView, delegate: delegate, section: section)
+            layoutFooter(position: &position, collectionView: collectionView, delegate: delegate, section: section)
         }
     }
     
@@ -100,7 +100,7 @@ internal class GirdLayout: UICollectionViewLayout {
             return .zero
         }
         var contentSize = collectionView.bounds.size
-        contentSize.height = columnHeights.last?.first ?? 0.0
+        contentSize.height = columnHeights.last?.first ?? estimatedItemSize.height
         return contentSize
     }
     

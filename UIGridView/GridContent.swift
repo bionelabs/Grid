@@ -14,16 +14,8 @@ public func Color(_ color: UIColor) -> Grid.Element {
     return Grid.Element.content((view, .square))
 }
 
-public func Content(_ view: UIView, size: Grid.Size) -> Grid.Element {
+public func Content(_ view: UIView, size: Grid.Size = .auto) -> Grid.Element {
     return Grid.Element.content((view, size))
-}
-
-public func Content(_ view: UIView) -> Grid.Element {
-    return Grid.Element.content((view, .auto))
-}
-
-public func Group(column: Int = 1, _ contents: Grid.Content...) -> Grid.Element {
-    return Grid.Element.group(column, contents)
 }
 
 public func Group(column: Int = 1, size: Grid.Size = .auto, _ views: UIView...) -> Grid.Element {

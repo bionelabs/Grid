@@ -50,8 +50,9 @@ public extension Grid {
 public class Grid: UICollectionView {
     
     internal typealias ContentView = (view: UIView, size: CGSize, identifier: String)
+    internal typealias ContentData = (column: Int, contents: [ContentView])
     
-    internal var views: [(Int, [ContentView])] = []
+    internal var views: [ContentData] = []
     
     internal var elements: [Element]
     
@@ -87,11 +88,12 @@ public class Grid: UICollectionView {
                 self.views.append((1, [(value.view, value.size.size, UUID().uuidString)]))
             }
         }
+        print("column:", self.views.map { $0.column})
     }
     
     internal func setupCollectionView() {
         self.layout.delegate = self
-        self.views.map{ $0.1 }.flatMap{ $0 }.forEach {
+        self.views.map{ $0.contents }.flatMap{ $0 }.forEach {
             self.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: $0.identifier)
         }
         self.delegate = self
@@ -112,14 +114,14 @@ extension Grid: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let view = self.views[indexPath.section].1[indexPath.row]
+        let view = self.views[indexPath.section].contents[indexPath.row]
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: view.identifier, for: indexPath) as! GridCollectionViewCell
         cell.view = view.view
         return cell
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.views[section].1.count
+        return self.views[section].contents.count
     }
 }
 
@@ -130,11 +132,11 @@ extension Grid: UICollectionViewDelegate {
 extension Grid: GirdLayoutDelegate {
     
     func collectionViewColumn(for section: Int) -> Int {
-        return self.views[section].0
+        return self.views[section].column
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let view = self.views[indexPath.section].1[indexPath.row]
+        let view = self.views[indexPath.section].contents[indexPath.row]
         return view.size
     }
 }
