@@ -17,7 +17,7 @@ internal protocol GirdLayoutDelegate: class {
 
 internal class GirdLayout: UICollectionViewLayout {
     
-    public static let automaticSize: CGSize = CGSize(width: CGFloat.greatestFiniteMagnitude, height: .greatestFiniteMagnitude)
+    public static let automaticSize: CGSize = UICollectionViewFlowLayout.automaticSize
         
     public struct Const {
         static let minimumLineSpacing: CGFloat = 0.0
@@ -73,6 +73,7 @@ internal class GirdLayout: UICollectionViewLayout {
     
     internal override func prepare() {
         super.prepare()
+        print("prepare")
         cleaunup()
         
         guard let collectionView = collectionView else { return }
@@ -88,9 +89,9 @@ internal class GirdLayout: UICollectionViewLayout {
         
         var position: CGFloat = 0.0
         (0..<numberOfSections).forEach { section in
-            layoutHeader(position: &position, collectionView: collectionView, delegate: delegate, section: section)
+            //layoutHeader(position: &position, collectionView: collectionView, delegate: delegate, section: section)
             layoutItems(position: position, collectionView: collectionView, delegate: delegate, section: section)
-            layoutFooter(position: &position, collectionView: collectionView, delegate: delegate, section: section)
+            //layoutFooter(position: &position, collectionView: collectionView, delegate: delegate, section: section)
         }
     }
     
@@ -114,30 +115,37 @@ internal class GirdLayout: UICollectionViewLayout {
     }
     
     internal override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        return allItemAttributes.filter { rect.intersects($0.frame) }
+        let attributes = allItemAttributes.filter { rect.intersects($0.frame) }
+        attributes.forEach{ layoutAttributes in
+            if let newFrame = layoutAttributesForItem(at: layoutAttributes.indexPath)?.frame {
+                layoutAttributes.frame = newFrame
+            }
+        }
+        return attributes
     }
     
-    internal override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
-        return newBounds.width != (collectionView?.bounds ?? .zero).width
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+        guard let collectionView = collectionView else { return false }
+        return !newBounds.size.equalTo(collectionView.bounds.size)
     }
     
     override public func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
-        if let _ = delegate {
-            return false
-        }
-        
-        return cachedItemSizes[originalAttributes.indexPath] != preferredAttributes.size
+        let shouldInvalidateLayout = cachedItemSizes[originalAttributes.indexPath] != preferredAttributes.size
+        print("shouldInvalidateLayout:", shouldInvalidateLayout)
+        return shouldInvalidateLayout
     }
     
     override public func invalidationContext(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutInvalidationContext {
         let context = super.invalidationContext(forPreferredLayoutAttributes: preferredAttributes, withOriginalAttributes: originalAttributes)
-        
         guard let _ = collectionView else { return context }
         
         let oldContentSize = self.collectionViewContentSize
         cachedItemSizes[originalAttributes.indexPath] = preferredAttributes.size
+        
+        
         let newContentSize = self.collectionViewContentSize
         context.contentSizeAdjustment = CGSize(width: 0, height: newContentSize.height - oldContentSize.height)
+        
         _ = context.invalidateEverything
         return context
     }
@@ -216,11 +224,14 @@ internal class GirdLayout: UICollectionViewLayout {
             
             if itemSize == GirdLayout.automaticSize {
                 itemHeight = cachedItemSizes[indexPath]?.height ?? 0
+                print("automatic size size:", itemWidth, itemHeight)
             } else if itemSize.height == 0 && itemSize.width == 0 {
                 itemHeight = itemWidth
+                print("square size:", itemWidth, itemHeight)
             } else {
                 cachedItemSizes[indexPath] = itemSize
                 itemHeight = itemSize.height
+                print("other size:", itemWidth, itemHeight )
             }
             
             let offsetY: CGFloat = columnHeights[section][columnIndex]
@@ -290,6 +301,10 @@ internal class GirdLayout: UICollectionViewLayout {
     
     private func footerInset(for section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    }
+    
+    private func estimatedSizeForItemAt(_ indexPath: IndexPath) -> CGSize {
+        return self.estimatedItemSize
     }
     
 }
