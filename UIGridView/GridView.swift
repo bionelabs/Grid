@@ -19,45 +19,38 @@ public extension Grid {
     typealias Content = (view: UIView, size: Grid.Size)
     
     enum Size {
-        
+        case size(Float, Float)
+        case max(Float)
         case fit(Float)
         case square
         case auto
-        
-        var size: CGSize {
-            switch self {
-            case .fit(let height):
-                return CGSize(width: 0.0, height: Double(height))
-            case .square:
-                return CGSize(width: 0.0, height: 0.0)
-            case .auto:
-                return UICollectionViewFlowLayout.automaticSize
-            }
-        }
-        
     }
     
-    enum Element {
+    enum Attributes {
         case lineSpacing(Float)
         case interitemSpacing(Float)
         case sectionInset(UIEdgeInsets)
+    }
+    
+    enum Container {
         case content(Grid.Content)
         case group(Int, [Grid.Content])
-        case view(UIView)
     }
 }
 
 public class Grid: UICollectionView {
     
-    internal typealias ContentView = (view: UIView, size: CGSize, identifier: String)
+    internal typealias ContentView = (view: UIView, size: Grid.Size, identifier: String)
     internal typealias ContentData = (column: Int, contents: [ContentView])
     
     internal var views: [ContentData] = []
     
-    internal var elements: [Element]
+    internal var containers: [Container]
+    internal var attributes: [Attributes]
     
-    public required init(_ elements: Element...) {
-        self.elements = elements
+    public required init(attributes: [Attributes] = [], _ containers: Container...) {
+        self.containers = containers
+        self.attributes = attributes
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
         self.backgroundColor = .white
         self.layout.estimatedItemSize = GirdLayout.automaticSize
@@ -67,25 +60,27 @@ public class Grid: UICollectionView {
     }
     
     internal func setUpParamesters() {
-        for param in self.elements {
-            switch param {
-                
-            // configuations
+        
+        for attribute in self.attributes {
+            switch attribute {
             case .interitemSpacing(let value):
                 self.layout.minimumInteritemSpacing = CGFloat(value)
             case .lineSpacing(let value):
                 self.layout.minimumLineSpacing = CGFloat(value)
             case .sectionInset(let value):
                 self.layout.sectionInset = value
-                
+            }
+        }
+        
+        
+        for param in self.containers {
+            switch param {
             // views
             case .group(let column, let value):
-                let contentView: [ContentView] = value.map { ($0.view, $0.size.size, UUID().uuidString)}
+                let contentView: [ContentView] = value.map { ($0.view, $0.size, UUID().uuidString)}
                 self.views.append((column, contentView))
-            case .view(let value):
-                self.views.append((1, [(value, Grid.Size.auto.size, UUID().uuidString)]))
             case .content(let value):
-                self.views.append((1, [(value.view, value.size.size, UUID().uuidString)]))
+                self.views.append((1, [(value.view, value.size, UUID().uuidString)]))
             }
         }
         print("column:", self.views.map { $0.column})
@@ -135,7 +130,7 @@ extension Grid: GirdLayoutDelegate {
         return self.views[section].column
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> Grid.Size {
         let view = self.views[indexPath.section].contents[indexPath.row]
         return view.size
     }

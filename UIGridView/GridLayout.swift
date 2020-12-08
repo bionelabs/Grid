@@ -12,13 +12,13 @@ internal protocol GirdLayoutDelegate: class {
     
     // MARK: - Required
     func collectionViewColumn(for section: Int) -> Int
-    func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
+    func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> Grid.Size
 }
 
 internal class GirdLayout: UICollectionViewLayout {
     
     public static let automaticSize: CGSize = UICollectionViewFlowLayout.automaticSize
-        
+    
     public struct Const {
         static let minimumLineSpacing: CGFloat = 0.0
         static let minimumInteritemSpacing: CGFloat = 0.0
@@ -73,7 +73,6 @@ internal class GirdLayout: UICollectionViewLayout {
     
     internal override func prepare() {
         super.prepare()
-        print("prepare")
         cleaunup()
         
         guard let collectionView = collectionView else { return }
@@ -83,9 +82,10 @@ internal class GirdLayout: UICollectionViewLayout {
         if numberOfSections == 0 { return }
         
         (0..<numberOfSections).forEach { section in
-            let columnCount = delegate.collectionViewColumn(for: section)
+            let columnCount = collectionViewColumn(for: section)
             columnHeights.append(Array(repeating: 0.0, count: columnCount))
         }
+        print("columnHeights:", columnHeights)
         
         var position: CGFloat = 0.0
         (0..<numberOfSections).forEach { section in
@@ -131,7 +131,6 @@ internal class GirdLayout: UICollectionViewLayout {
     
     override public func shouldInvalidateLayout(forPreferredLayoutAttributes preferredAttributes: UICollectionViewLayoutAttributes, withOriginalAttributes originalAttributes: UICollectionViewLayoutAttributes) -> Bool {
         let shouldInvalidateLayout = cachedItemSizes[originalAttributes.indexPath] != preferredAttributes.size
-        print("shouldInvalidateLayout:", shouldInvalidateLayout)
         return shouldInvalidateLayout
     }
     
@@ -163,7 +162,7 @@ internal class GirdLayout: UICollectionViewLayout {
     }
     
     private func layoutHeader(position: inout CGFloat, collectionView: UICollectionView,  delegate: GirdLayoutDelegate, section: Int) {
-        let columnCount = delegate.collectionViewColumn(for: section)
+        let columnCount = collectionViewColumn(for: section)
         let headerHeight = self.headerHeight(for: section)
         let headerInset = self.headerInset(for: section)
         
@@ -207,44 +206,105 @@ internal class GirdLayout: UICollectionViewLayout {
         let minimumInteritemSpacing = self.minimumInteritemSpacing(for: section)
         let minimumLineSpacing = self.minimumInteritemSpacing(for: section)
         
-        let columnCount = delegate.collectionViewColumn(for: section)
+        let columnCount = collectionViewColumn(for: section)
         let itemCount = collectionView.numberOfItems(inSection: section)
-        let width = collectionView.bounds.width - (sectionInset.left + sectionInset.right)
+        
+        let firstPaddingLeft = minimumInteritemSpacing
+        let width = (collectionView.bounds.width - firstPaddingLeft*2) - (sectionInset.left + sectionInset.right)
+        
         let itemWidth = floor((width - CGFloat(columnCount - 1) * minimumLineSpacing) / CGFloat(columnCount))
+        
         let paddingLeft = itemWidth + minimumLineSpacing
+        
+        print("section:", section ,"paddingLeft:", paddingLeft)
         
         var itemAttributes: [UICollectionViewLayoutAttributes] = []
         
         (0..<itemCount).forEach { index in
             let indexPath: IndexPath = [section, index]
             let columnIndex = pickColumn(itemIndex: index, delegate: delegate, section: section)
-            
             let itemHeight: CGFloat
             let itemSize = delegate.collectionView(collectionView, layout: self, sizeForItemAt: indexPath)
-            
-            if itemSize == GirdLayout.automaticSize {
+
+            switch itemSize {
+            case .auto:
                 itemHeight = cachedItemSizes[indexPath]?.height ?? 0
-                print("automatic size size:", itemWidth, itemHeight)
-            } else if itemSize.height == 0 && itemSize.width == 0 {
+                let offsetY: CGFloat = columnHeights[section][columnIndex]
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                attributes.frame = CGRect(
+                    x: sectionInset.left + paddingLeft * CGFloat(columnIndex) + firstPaddingLeft,
+                    y: offsetY,
+                    width: itemWidth,
+                    height: itemHeight
+                )
+                itemAttributes.append(attributes)
+                columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
+                
+            case .fit(let height):
+                itemHeight = CGFloat(height)
+                let offsetY: CGFloat = columnHeights[section][columnIndex]
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                attributes.frame = CGRect(
+                    x: sectionInset.left + paddingLeft * CGFloat(columnIndex) + firstPaddingLeft,
+                    y: offsetY,
+                    width: itemWidth,
+                    height: itemHeight
+                )
+                itemAttributes.append(attributes)
+                columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
+                
+            case .square:
                 itemHeight = itemWidth
-                print("square size:", itemWidth, itemHeight)
-            } else {
-                cachedItemSizes[indexPath] = itemSize
-                itemHeight = itemSize.height
-                print("other size:", itemWidth, itemHeight )
+                let offsetY: CGFloat = columnHeights[section][columnIndex]
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                attributes.frame = CGRect(
+                    x: sectionInset.left + paddingLeft * CGFloat(columnIndex) + firstPaddingLeft,
+                    y: offsetY,
+                    width: itemWidth,
+                    height: itemHeight
+                )
+                itemAttributes.append(attributes)
+                columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
+                
+            case .max(let value):
+                if value < Float(itemWidth) {
+                    itemHeight = CGFloat(value)
+                } else {
+                    itemHeight = itemWidth
+                }
+                let offsetY: CGFloat = columnHeights[section][columnIndex]
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
+                
+                attributes.frame = CGRect(
+                    x: sectionInset.left + paddingLeft * CGFloat(columnIndex) + firstPaddingLeft,
+                    y: offsetY,
+                    width: itemWidth,
+                    height: itemHeight
+                )
+                itemAttributes.append(attributes)
+                columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
+                
+            case .size(let width, let height):
+                var _width: CGFloat = CGFloat(width)
+                if _width > itemWidth {
+                    _width = itemWidth
+                }
+                itemHeight = CGFloat(height)
+                let offsetY: CGFloat = columnHeights[section][columnIndex]
+                let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+                attributes.frame = CGRect(
+                    x: (itemWidth - _width)/2 + sectionInset.left + paddingLeft * CGFloat(columnIndex) + firstPaddingLeft,
+                    y: offsetY,
+                    width: _width,
+                    height: itemHeight
+                )
+                itemAttributes.append(attributes)
+                columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
             }
             
-            let offsetY: CGFloat = columnHeights[section][columnIndex]
+
             
-            let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-            attributes.frame = CGRect(
-                x: sectionInset.left + paddingLeft * CGFloat(columnIndex),
-                y: offsetY,
-                width: itemWidth,
-                height: itemHeight
-            )
-            itemAttributes.append(attributes)
-            columnHeights[section][columnIndex] = attributes.frame.maxY + minimumInteritemSpacing
         }
         allItemAttributes.append(contentsOf: itemAttributes)
         sectionItemAttributes.append(itemAttributes)
@@ -253,7 +313,7 @@ internal class GirdLayout: UICollectionViewLayout {
     private func layoutFooter(position: inout CGFloat, collectionView: UICollectionView, delegate: GirdLayoutDelegate, section: Int) {
         let sectionInset = self.sectionInset(for: section)
         let minimumInteritemSpacing = self.minimumInteritemSpacing(for: section)
-        let columnCount = delegate.collectionViewColumn(for: section)
+        let columnCount = collectionViewColumn(for: section)
         let longestColumnIndex = columnHeights[section].enumerated().sorted { $0.element > $1.element }.first?.offset ?? 0
         
         if columnHeights[section].count > 0 {
@@ -276,11 +336,11 @@ internal class GirdLayout: UICollectionViewLayout {
     }
     
     private func minimumInteritemSpacing(for section: Int) -> CGFloat {
-        return 0
+        return self.minimumInteritemSpacing
     }
     
     private func minimumLineSpacing(for section: Int) -> CGFloat {
-        return 0
+        return self.minimumLineSpacing
     }
     
     private func sectionInset(for section: Int) -> UIEdgeInsets {
@@ -288,7 +348,7 @@ internal class GirdLayout: UICollectionViewLayout {
     }
     
     private func headerHeight(for section: Int) -> CGFloat {
-        return 0
+        return 0.0
     }
     
     private func headerInset(for section: Int) -> UIEdgeInsets {
@@ -296,7 +356,7 @@ internal class GirdLayout: UICollectionViewLayout {
     }
     
     private func footerHeight(for section: Int) -> CGFloat {
-        return 0
+        return self.minimumLineSpacing
     }
     
     private func footerInset(for section: Int) -> UIEdgeInsets {
@@ -305,6 +365,11 @@ internal class GirdLayout: UICollectionViewLayout {
     
     private func estimatedSizeForItemAt(_ indexPath: IndexPath) -> CGSize {
         return self.estimatedItemSize
+    }
+    
+    private func collectionViewColumn(for section: Int) -> Int {
+        let column = self.delegate?.collectionViewColumn(for: section) ?? 1
+        return column
     }
     
 }
