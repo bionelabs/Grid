@@ -32,16 +32,21 @@ public extension Grid {
         case sectionInset(UIEdgeInsets)
     }
     
+    enum GroupAttributes {
+        case column(Int)
+        case size(Grid.Size)
+    }
+    
     enum Container {
         case content(Grid.Content)
-        case group(Int, [Grid.Content])
+        case group([GroupAttributes], [Grid.Content])
     }
 }
 
 public class Grid: UICollectionView {
     
     internal typealias ContentView = (view: UIView, size: Grid.Size, identifier: String)
-    internal typealias ContentData = (column: Int, contents: [ContentView])
+    internal typealias ContentData = (attributes: [GroupAttributes], contents: [ContentView])
     
     internal var views: [ContentData] = []
     
@@ -76,14 +81,13 @@ public class Grid: UICollectionView {
         for param in self.containers {
             switch param {
             // views
-            case .group(let column, let value):
+            case .group(let attributes, let value):
                 let contentView: [ContentView] = value.map { ($0.view, $0.size, UUID().uuidString)}
-                self.views.append((column, contentView))
+                self.views.append((attributes, contentView))
             case .content(let value):
-                self.views.append((1, [(value.view, value.size, UUID().uuidString)]))
+                self.views.append(([.column(1)], [(value.view, value.size, UUID().uuidString)]))
             }
         }
-        print("column:", self.views.map { $0.column})
     }
     
     internal func setupCollectionView() {
@@ -127,7 +131,27 @@ extension Grid: UICollectionViewDelegate {
 extension Grid: GirdLayoutDelegate {
     
     func collectionViewColumn(for section: Int) -> Int {
-        return self.views[section].column
+        var column: Int = 0
+        var size: Grid.Size = .auto
+        for atribute in self.views[section].attributes {
+            
+            switch atribute {
+            case .column(let value):
+                column =  value
+            case .size(let value):
+                size = value
+            }
+        }
+        
+        if column == 0, case let Grid.Size.size(width, _) = size {
+            return Int((self.bounds.width)/(CGFloat(width) - (self.layout.minimumInteritemSpacing*2)))
+        }
+        
+        if column == 0 {
+            return 1
+        }
+        
+        return column
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> Grid.Size {

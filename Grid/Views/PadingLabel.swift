@@ -10,6 +10,40 @@ import UIKit
 
 class PadingLabel: UILabel {
     
+    enum Attributes {
+        case font(UIFont)
+        case text(String)
+        case background(UIColor)
+        case textColor(UIColor)
+        case padding(CGFloat)
+        case cornerRadius(CGFloat)
+        case textAlignment(NSTextAlignment)
+    }
+    
+    convenience init(_ attributes: PadingLabel.Attributes...) {
+        self.init(frame: .zero)
+        for attribute in attributes {1
+            switch attribute {
+            case .font(let font):
+                self.font = font
+            case .textAlignment(let value):
+                self.textAlignment = value
+            case .text(let value):
+                self.text = value
+            case .background(let value):
+                self.backgroundColor = value
+            case .cornerRadius(let value):
+                self.layer.masksToBounds = true
+                self.layer.cornerRadius = value
+            case .textColor(let value):
+                self.textColor = value
+            case .padding(let padding):
+                self.frame = CGRect(x: 0, y: 0, width: self.frame.width + padding + padding, height: self.frame.height + padding + padding)
+                self.insets = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+            }
+        }
+    }
+    
     var insets = UIEdgeInsets.zero
     
     convenience init(text: String) {
