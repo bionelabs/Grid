@@ -22,7 +22,7 @@ class PadingLabel: UILabel {
     
     convenience init(_ attributes: PadingLabel.Attributes...) {
         self.init(frame: .zero)
-        for attribute in attributes {1
+        for attribute in attributes {
             switch attribute {
             case .font(let font):
                 self.font = font
