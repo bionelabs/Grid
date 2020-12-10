@@ -59,6 +59,7 @@ public class Grid: UICollectionView {
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
         self.backgroundColor = .white
         self.layout.estimatedItemSize = GirdLayout.automaticSize
+        self.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
         self.layout.headerHeight = 0
         self.setUpParamesters()
         self.setupCollectionView()
