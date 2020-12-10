@@ -24,7 +24,7 @@ class PadingLabel: UILabel {
         case text(String)
         case background(UIColor)
         case textColor(UIColor)
-        case padding([Inset])
+        case padding([PadingLabel.Inset])
         case cornerRadius(CGFloat)
         case textAlignment(NSTextAlignment)
     }
