@@ -10,12 +10,21 @@ import UIKit
 
 class PadingLabel: UILabel {
     
+    enum Inset {
+        case left(CGFloat)
+        case right(CGFloat)
+        case top(CGFloat)
+        case bottom(CGFloat)
+        case all(CGFloat)
+    }
+    
+    
     enum Attributes {
         case font(UIFont)
         case text(String)
         case background(UIColor)
         case textColor(UIColor)
-        case padding(CGFloat)
+        case padding([Inset])
         case cornerRadius(CGFloat)
         case textAlignment(NSTextAlignment)
     }
@@ -38,8 +47,30 @@ class PadingLabel: UILabel {
             case .textColor(let value):
                 self.textColor = value
             case .padding(let padding):
-                self.frame = CGRect(x: 0, y: 0, width: self.frame.width + padding + padding, height: self.frame.height + padding + padding)
-                self.insets = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
+                var left: CGFloat = 0
+                var right: CGFloat = 0
+                var top: CGFloat = 0
+                var bottom: CGFloat = 0
+                for type in padding {
+                    switch type {
+                    case .all(let value):
+                        left = value
+                        right = value
+                        top = value
+                        bottom = value
+                    case .left(let value):
+                        left = value
+                    case .right(let value):
+                        right = value
+                    case .bottom(let value):
+                        bottom = value
+                    case .top(let value):
+                        top = value
+                    }
+                }
+                
+                self.frame = CGRect(x: 0, y: 0, width: self.frame.width + left + right, height: self.frame.height + top + bottom)
+                self.insets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
             }
         }
     }

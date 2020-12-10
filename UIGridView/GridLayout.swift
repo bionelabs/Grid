@@ -216,7 +216,7 @@ internal class GirdLayout: UICollectionViewLayout {
         
         let paddingLeft = itemWidth + minimumLineSpacing
         
-        print("section:", section ,"paddingLeft:", paddingLeft)
+        //print("section:", section ,"paddingLeft:", paddingLeft)
         
         var itemAttributes: [UICollectionViewLayoutAttributes] = []
         
