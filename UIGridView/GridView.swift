@@ -53,9 +53,17 @@ public class Grid: UICollectionView {
     internal var containers: [Container]
     internal var attributes: [Attributes]
     
-    public required init(attributes: [Attributes] = [], _ containers: Container...) {
+    public func render(attributes: [Attributes] = [], _ containers: Container...) {
         self.containers = containers
         self.attributes = attributes
+        self.setUpParamesters()
+        self.setupCollectionView()
+        self.reloadData()
+    }
+    
+    public required init() {
+        self.containers = []
+        self.attributes = []
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
         self.backgroundColor = .white
         self.layout.estimatedItemSize = GirdLayout.automaticSize
@@ -78,7 +86,7 @@ public class Grid: UICollectionView {
             }
         }
         
-        
+        self.views = []
         for param in self.containers {
             switch param {
             // views

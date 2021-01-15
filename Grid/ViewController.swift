@@ -18,6 +18,9 @@ extension UIScreen {
 
 class ViewController: UIViewController {
     
+    
+    var girdView: Grid = Grid()
+    
     let menuItems: [String] = [
         "English Anytime",
         "Grades & Progress",
@@ -42,6 +45,123 @@ class ViewController: UIViewController {
     ]
     
     let practiceItems: [String] = [
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
+        "I love my house",
+        "Going to...",
+        "I study English yesterday",
+        "Improve you vocabolary (1)",
+        "Prononciation - Past simple regular",
+        "Simple past and simple practiciple",
+        "Rainy London",
+        "We need to... souvernirs",
+        "Must and mustn't",
         "I love my house",
         "Going to...",
         "I study English yesterday",
@@ -76,10 +196,12 @@ class ViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
- 
-        self.view = Grid(attributes:[.interitemSpacing(4),
-                                     .lineSpacing(4),
-                                     .sectionInset(UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)),
+        
+        self.view = girdView
+        
+        girdView.render(attributes:[.interitemSpacing(4),
+                                    .lineSpacing(4),
+                                    .sectionInset(UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)),
             ], Content(PadingLabel(.text("You have an ENCOUNTER tomorrow. Don't foget it. Please go there on time."),
                                    .padding([.all(8)]),
                                    .background(.red),
@@ -160,6 +282,101 @@ class ViewController: UIViewController {
                                    .textColor(.black))
             }
         )
+        
+        
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.girdView.render(
+                Content(PadingLabel(.text("Practice"),
+                                    .padding([.all(8)]),
+                                    .background(.clear),
+                                    .textColor(.black),
+                                    .textAlignment(.left),
+                                    .font(UIFont.systemFont(ofSize: 16)))
+                ), ForEach(attributes: [.column(5), .size(.square)], loop: self.practiceItems.count) {
+                    return PadingLabel(.text(self.practiceItems[$0]),
+                                       .padding([.all(8)]))
+                }
+            )
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.3) {
+            self.girdView.render(
+                Content(PadingLabel(.text("Practice"),
+                                    .padding([.all(8)]),
+                                    .background(.clear),
+                                    .textColor(.black),
+                                    .textAlignment(.left),
+                                    .font(UIFont.systemFont(ofSize: 16)))
+                ), ForEach(attributes: [.column(3), .size(.square)], loop: self.practiceItems.count) {
+                    return PadingLabel(.text(self.practiceItems[$0]),
+                                       .padding([.all(8)]))
+                }
+            )
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.6) {
+            self.girdView.render(
+                Content(PadingLabel(.text("Practice"),
+                                    .padding([.all(8)]),
+                                    .background(.clear),
+                                    .textColor(.black),
+                                    .textAlignment(.left),
+                                    .font(UIFont.systemFont(ofSize: 16)))
+                ), ForEach(attributes: [.column(4), .size(.square)], loop: self.practiceItems.count) {
+                    return PadingLabel(.text(self.practiceItems[$0]),
+                                       .padding([.all(8)]))
+                }
+            )
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.9) {
+            self.girdView.render(
+                Content(PadingLabel(.text("Practice"),
+                                    .padding([.all(8)]),
+                                    .background(.clear),
+                                    .textColor(.black),
+                                    .textAlignment(.left),
+                                    .font(UIFont.systemFont(ofSize: 16)))
+                ), ForEach(attributes: [.column(2), .size(.square)], loop: self.practiceItems.count) {
+                    return PadingLabel(.text(self.practiceItems[$0]),
+                                       .padding([.all(8)]))
+                }
+            )
+        }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6.2) {
+            self.girdView.render(
+                Content(PadingLabel(.text("Practice"),
+                                    .padding([.all(8)]),
+                                    .background(.clear),
+                                    .textColor(.black),
+                                    .textAlignment(.left),
+                                    .font(UIFont.systemFont(ofSize: 16)))
+                ), ForEach(attributes: [.column(4), .size(.square)], loop: self.practiceItems.count) {
+                    return PadingLabel(.text(self.practiceItems[$0]),
+                                       .padding([.all(8)]))
+                }
+            )
+        }
+        
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 6.6) {
+            self.girdView.render(
+                Content(PadingLabel(.text("Practice"),
+                                    .padding([.all(8)]),
+                                    .background(.clear),
+                                    .textColor(.black),
+                                    .textAlignment(.left),
+                                    .font(UIFont.systemFont(ofSize: 16)))
+                ), ForEach(attributes: [.column(6), .size(.square)], loop: self.practiceItems.count) {
+                    return PadingLabel(.text(self.practiceItems[$0]),
+                                       .padding([.all(8)]))
+                }
+            )
+        }
+        
     }
     
 }
