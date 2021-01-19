@@ -103,7 +103,7 @@ class PadingLabel: UILabel {
         self.font = UIFont.boldSystemFont(ofSize: 16)
         self.textAlignment = .center
         self.layer.masksToBounds = true
-        self.layer.cornerRadius = 4
+        self.layer.cornerRadius = 0
         self.numberOfLines = 0
     }
     

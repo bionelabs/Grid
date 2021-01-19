@@ -29,7 +29,7 @@ public func Group(attributes: [Grid.GroupAttributes] = [.column(1), .size(.auto)
     return Grid.Container.group(attributes, views.map{ ($0, size)})
 }
 
-public func ForEach(attributes: [Grid.GroupAttributes] = [.column(1), .size(.auto)], loop: Int, input: (Int) -> UIView) -> Grid.Container {
+public func ForEach<T>(attributes: [Grid.GroupAttributes] = [.column(1), .size(.auto)], items: [T], handle: (T) -> UIView) -> Grid.Container {
     var size: Grid.Size = .auto
     for attibute in attributes {
         if case let Grid.GroupAttributes.size(value) = attibute {
@@ -39,8 +39,17 @@ public func ForEach(attributes: [Grid.GroupAttributes] = [.column(1), .size(.aut
     }
     
     var views: [UIView] = []
-    for i in 0..<loop {
-        views.append(input(i))
+    for item in items {
+        views.append(handle(item))
     }
     return Grid.Container.group(attributes, views.map{ ($0, size)})
+}
+
+
+public func ForEach<T>(_ items: [T], handle: (T) -> UIView) -> Grid.Container {
+    var views: [UIView] = []
+    for item in items {
+        views.append(handle(item))
+    }
+    return Grid.Container.group([.size(.auto), .column(1)], views.map{ ($0, .auto)})
 }

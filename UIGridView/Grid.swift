@@ -16,7 +16,7 @@ extension NSObjectProtocol {
 
 public extension Grid {
     
-    typealias Content = (view: UIView, size: Grid.Size)
+    typealias Element = (view: UIView, size: Grid.Size)
     
     enum Size {
         case size(Float, Float)
@@ -38,26 +38,12 @@ public extension Grid {
     }
     
     enum Container {
-        case content(Grid.Content)
-        case group([GroupAttributes], [Grid.Content])
+        case content(Grid.Element)
+        case group([GroupAttributes], [Grid.Element])
     }
 }
 
-public extension Grid {
-    
-    func render(attributes: [Attributes] = [], _ containers: Container...) {
-        self.containers = containers
-        self.attributes = attributes
-        self.setUpParamesters()
-        self.setupCollectionView()
-        UIView.animate(withDuration: 0.0) {
-            self.reloadData()
-        }
-    }
-
-}
-
-public class Grid: UICollectionView {
+open class Grid: UICollectionView {
     
     internal typealias ContentView = (view: UIView, size: Grid.Size, identifier: String)
     internal typealias ContentData = (attributes: [GroupAttributes], contents: [ContentView])
@@ -67,7 +53,7 @@ public class Grid: UICollectionView {
     internal var containers: [Container]
     internal var attributes: [Attributes]
     
-    public required init() {
+    public init() {
         self.containers = []
         self.attributes = []
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
@@ -79,16 +65,24 @@ public class Grid: UICollectionView {
         self.setupCollectionView()
     }
     
-    public required init(attributes: [Attributes] = [], _ containers: Container...) {
+    public func render(_ containers: Container...) {
         self.containers = containers
-        self.attributes = attributes
-        super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
-        self.backgroundColor = .white
-        self.layout.estimatedItemSize = GirdLayout.automaticSize
-        self.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
-        self.layout.headerHeight = 0
+        self.attributes = []
         self.setUpParamesters()
         self.setupCollectionView()
+        UIView.animate(withDuration: 0.0) {
+            self.reloadData()
+        }
+    }
+    
+    public func render(attributes: [Attributes], _ containers: Container...) {
+        self.containers = containers
+        self.attributes = attributes
+        self.setUpParamesters()
+        self.setupCollectionView()
+        UIView.animate(withDuration: 0.0) {
+            self.reloadData()
+        }
     }
     
     internal func setUpParamesters() {
@@ -128,7 +122,7 @@ public class Grid: UICollectionView {
     
     internal let layout: GirdLayout = GirdLayout()
     
-    internal required init?(coder: NSCoder) {
+    public required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

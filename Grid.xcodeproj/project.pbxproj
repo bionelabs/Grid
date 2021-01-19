@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7348AB4025B7479500CCFF79 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7348AB3F25B7479500CCFF79 /* View.swift */; };
+		7348AB4725B747B500CCFF79 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7348AB4625B747B500CCFF79 /* ViewModel.swift */; };
 		739CCCA8256F43EE00CEA55E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCA7256F43EE00CEA55E /* AppDelegate.swift */; };
 		739CCCAC256F43EE00CEA55E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCAB256F43EE00CEA55E /* ViewController.swift */; };
 		739CCCB1256F43EF00CEA55E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 739CCCB0256F43EF00CEA55E /* Assets.xcassets */; };
@@ -24,7 +26,7 @@
 		73FAC276256F989D0028FBF7 /* UIGridView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 73FAC260256F989D0028FBF7 /* UIGridView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		73FAC27E256F98A80028FBF7 /* GridCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */; };
 		73FAC27F256F98A80028FBF7 /* GridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCD7256F441700CEA55E /* GridLayout.swift */; };
-		73FAC280256F98A80028FBF7 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDC256F454B00CEA55E /* GridView.swift */; };
+		73FAC280256F98A80028FBF7 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCDC256F454B00CEA55E /* Grid.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +82,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7348AB3F25B7479500CCFF79 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		7348AB4625B747B500CCFF79 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		739CCCA4256F43EE00CEA55E /* Grid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		739CCCA7256F43EE00CEA55E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		739CCCAB256F43EE00CEA55E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -94,7 +98,7 @@
 		739CCCCB256F43EF00CEA55E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		739CCCD7256F441700CEA55E /* GridLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridLayout.swift; sourceTree = "<group>"; };
 		739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionViewCell.swift; sourceTree = "<group>"; };
-		739CCCDC256F454B00CEA55E /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		739CCCDC256F454B00CEA55E /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		73C363B3257D3083002D9806 /* GridContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridContent.swift; sourceTree = "<group>"; };
 		73C363B8257F4198002D9806 /* PadingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PadingLabel.swift; sourceTree = "<group>"; };
 		73C363BA257F41D9002D9806 /* Label.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
@@ -149,6 +153,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7348AB4525B7479F00CCFF79 /* MVC */ = {
+			isa = PBXGroup;
+			children = (
+				739CCCAB256F43EE00CEA55E /* ViewController.swift */,
+				7348AB3F25B7479500CCFF79 /* View.swift */,
+				7348AB4625B747B500CCFF79 /* ViewModel.swift */,
+			);
+			path = MVC;
+			sourceTree = "<group>";
+		};
 		739CCC9B256F43EE00CEA55E = {
 			isa = PBXGroup;
 			children = (
@@ -176,10 +190,10 @@
 		739CCCA6256F43EE00CEA55E /* Grid */ = {
 			isa = PBXGroup;
 			children = (
+				7348AB4525B7479F00CCFF79 /* MVC */,
 				73C363B7257F4187002D9806 /* Views */,
 				73FAC281256F98D80028FBF7 /* Grid.entitlements */,
 				739CCCA7256F43EE00CEA55E /* AppDelegate.swift */,
-				739CCCAB256F43EE00CEA55E /* ViewController.swift */,
 				739CCCB0256F43EF00CEA55E /* Assets.xcassets */,
 				739CCCB2256F43EF00CEA55E /* LaunchScreen.storyboard */,
 				739CCCB5256F43EF00CEA55E /* Info.plist */,
@@ -219,7 +233,7 @@
 			children = (
 				739CCCD7256F441700CEA55E /* GridLayout.swift */,
 				739CCCDA256F451100CEA55E /* GridCollectionViewCell.swift */,
-				739CCCDC256F454B00CEA55E /* GridView.swift */,
+				739CCCDC256F454B00CEA55E /* Grid.swift */,
 				73FAC262256F989D0028FBF7 /* UIGridView.h */,
 				73FAC263256F989D0028FBF7 /* Info.plist */,
 				73F0B9ED25717553003A7E54 /* ColorView.swift */,
@@ -350,7 +364,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1160;
-				LastUpgradeCheck = 1160;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Cao Phuoc Thanh";
 				TargetAttributes = {
 					739CCCA3256F43EE00CEA55E = {
@@ -443,7 +457,9 @@
 			files = (
 				73C363B9257F4198002D9806 /* PadingLabel.swift in Sources */,
 				739CCCAC256F43EE00CEA55E /* ViewController.swift in Sources */,
+				7348AB4025B7479500CCFF79 /* View.swift in Sources */,
 				73C363BB257F41D9002D9806 /* Label.swift in Sources */,
+				7348AB4725B747B500CCFF79 /* ViewModel.swift in Sources */,
 				739CCCA8256F43EE00CEA55E /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,7 +486,7 @@
 			files = (
 				73F0B9EE25717553003A7E54 /* ColorView.swift in Sources */,
 				73FAC27E256F98A80028FBF7 /* GridCollectionViewCell.swift in Sources */,
-				73FAC280256F98A80028FBF7 /* GridView.swift in Sources */,
+				73FAC280256F98A80028FBF7 /* Grid.swift in Sources */,
 				73C363B4257D3083002D9806 /* GridContent.swift in Sources */,
 				73FAC27F256F98A80028FBF7 /* GridLayout.swift in Sources */,
 			);
@@ -552,6 +568,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -612,6 +629,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -651,7 +669,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8AYMHH2W3E;
 				INFOPLIST_FILE = Grid/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -677,7 +695,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 8AYMHH2W3E;
 				INFOPLIST_FILE = Grid/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -780,7 +798,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -791,7 +809,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = UIGridView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -815,7 +833,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -826,7 +844,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = UIGridView/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
