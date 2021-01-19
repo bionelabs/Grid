@@ -10,6 +10,10 @@ import UIKit
 
 internal class GridCollectionViewCell: UICollectionViewCell {
     
+    static var resuseIdentifier: String {
+        String(describing: self)
+    }
+    
     private var _view: UIView?
     
     var view: UIView? {

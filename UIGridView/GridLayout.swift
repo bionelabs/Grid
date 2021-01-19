@@ -85,7 +85,7 @@ internal class GirdLayout: UICollectionViewLayout {
             let columnCount = collectionViewColumn(for: section)
             columnHeights.append(Array(repeating: 0.0, count: columnCount))
         }
-        print("columnHeights:", columnHeights)
+        //print("columnHeights:", columnHeights)
         
         var position: CGFloat = 0.0
         (0..<numberOfSections).forEach { section in

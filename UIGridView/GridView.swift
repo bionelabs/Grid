@@ -43,6 +43,20 @@ public extension Grid {
     }
 }
 
+public extension Grid {
+    
+    func render(attributes: [Attributes] = [], _ containers: Container...) {
+        self.containers = containers
+        self.attributes = attributes
+        self.setUpParamesters()
+        self.setupCollectionView()
+        UIView.animate(withDuration: 0.0) {
+            self.reloadData()
+        }
+    }
+
+}
+
 public class Grid: UICollectionView {
     
     internal typealias ContentView = (view: UIView, size: Grid.Size, identifier: String)
@@ -53,17 +67,21 @@ public class Grid: UICollectionView {
     internal var containers: [Container]
     internal var attributes: [Attributes]
     
-    public func render(attributes: [Attributes] = [], _ containers: Container...) {
-        self.containers = containers
-        self.attributes = attributes
-        self.setUpParamesters()
-        self.setupCollectionView()
-        self.reloadData()
-    }
-    
     public required init() {
         self.containers = []
         self.attributes = []
+        super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
+        self.backgroundColor = .white
+        self.layout.estimatedItemSize = GirdLayout.automaticSize
+        self.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+        self.layout.headerHeight = 0
+        self.setUpParamesters()
+        self.setupCollectionView()
+    }
+    
+    public required init(attributes: [Attributes] = [], _ containers: Container...) {
+        self.containers = containers
+        self.attributes = attributes
         super.init(frame: CGRect.zero, collectionViewLayout: self.layout)
         self.backgroundColor = .white
         self.layout.estimatedItemSize = GirdLayout.automaticSize
