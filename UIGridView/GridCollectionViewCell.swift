@@ -10,10 +10,6 @@ import UIKit
 
 internal class GridCollectionViewCell: UICollectionViewCell {
     
-    static var resuseIdentifier: String {
-        String(describing: self)
-    }
-    
     private var _view: UIView?
     
     var view: UIView? {
@@ -21,22 +17,24 @@ internal class GridCollectionViewCell: UICollectionViewCell {
             return self._view
         }
         set {
-            if let view = newValue {
-                self._view?.removeFromSuperview()
-                self.contentView.addSubview(view)
-                view.translatesAutoresizingMaskIntoConstraints = false
-                view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor).isActive = true
-                view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor).isActive = true
-                view.topAnchor.constraint(equalTo: contentView.topAnchor).isActive = true
-                view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor).isActive = true
-                self._view = newValue
+            if let view = newValue, _view != view {
+                UIView.animate(withDuration: 0.0) {
+                    self._view?.removeFromSuperview()
+                    self.contentView.addSubview(view)
+                    view.translatesAutoresizingMaskIntoConstraints = false
+                    view.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor).isActive = true
+                    view.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor).isActive = true
+                    view.topAnchor.constraint(equalTo: self.contentView.topAnchor).isActive = true
+                    view.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor).isActive = true
+                    self._view = newValue
+                }
             }
         }
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        self._view?.removeFromSuperview()
+        //self._view?.removeFromSuperview()
     }
     
     override init(frame: CGRect) {

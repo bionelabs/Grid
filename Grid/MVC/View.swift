@@ -34,7 +34,18 @@ class View: Grid {
                 ),
                 size: .fit(50)
             ),
-            ForEach(self.viewModel.practiceItems) { (item) -> UIView in
+//            List(
+//                cell: ViewCell.self,
+//                items: self.viewModel.practiceItems
+//            ) { (cell, item) -> ViewCell in
+//                return cell
+//            },
+            ForEach(
+                attributes: [
+                    .column(Int.random(in: 1...2)),
+                    .size(.auto)
+                ],
+                items: self.viewModel.practiceItems) { (item) -> UIView in
                 return PadingLabel(
                     .font(UIFont.boldSystemFont(ofSize: 16)),
                     .background(UIColor.random),

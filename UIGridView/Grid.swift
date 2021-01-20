@@ -40,18 +40,46 @@ public extension Grid {
     enum Container {
         case content(Grid.Element)
         case group([GroupAttributes], [Grid.Element])
+        case list(UICollectionViewCell.Type, handleCell: (IndexPath, UICollectionViewCell) -> UICollectionViewCell)
     }
+}
+
+public extension Grid {
+    
+    func render(_ containers: Container...) {
+        self.containers = containers
+        self.attributes = []
+        self.setUpParamesters()
+        self.setupCollectionView()
+        UIView.animate(withDuration: 0.0) {
+            self.reloadData()
+        }
+    }
+    
+    func render(attributes: [Attributes], _ containers: Container...) {
+        self.containers = containers
+        self.attributes = attributes
+        self.setUpParamesters()
+        self.setupCollectionView()
+        UIView.animate(withDuration: 0.0) {
+            self.reloadData()
+        }
+    }
+    
 }
 
 open class Grid: UICollectionView {
     
-    internal typealias ContentView = (view: UIView, size: Grid.Size, identifier: String)
+    internal typealias ContentView = (view: UIView, size: Grid.Size)
     internal typealias ContentData = (attributes: [GroupAttributes], contents: [ContentView])
     
+    internal var types: [UICollectionViewCell.Type] = []
     internal var views: [ContentData] = []
     
     internal var containers: [Container]
     internal var attributes: [Attributes]
+    
+    internal var cellForIndexPath: ((IndexPath, UICollectionViewCell) -> UICollectionViewCell)? = nil
     
     public init() {
         self.containers = []
@@ -63,26 +91,6 @@ open class Grid: UICollectionView {
         self.layout.headerHeight = 0
         self.setUpParamesters()
         self.setupCollectionView()
-    }
-    
-    public func render(_ containers: Container...) {
-        self.containers = containers
-        self.attributes = []
-        self.setUpParamesters()
-        self.setupCollectionView()
-        UIView.animate(withDuration: 0.0) {
-            self.reloadData()
-        }
-    }
-    
-    public func render(attributes: [Attributes], _ containers: Container...) {
-        self.containers = containers
-        self.attributes = attributes
-        self.setUpParamesters()
-        self.setupCollectionView()
-        UIView.animate(withDuration: 0.0) {
-            self.reloadData()
-        }
     }
     
     internal func setUpParamesters() {
@@ -99,22 +107,30 @@ open class Grid: UICollectionView {
         }
         
         self.views = []
+        self.types = []
         for param in self.containers {
             switch param {
             // views
             case .group(let attributes, let value):
-                let contentView: [ContentView] = value.map { ($0.view, $0.size, UUID().uuidString)}
+                let contentView: [ContentView] = value.map { ($0.view, $0.size)}
                 self.views.append((attributes, contentView))
             case .content(let value):
-                self.views.append(([.column(1)], [(value.view, value.size, UUID().uuidString)]))
-            }
+                self.views.append(([.column(1)], [(value.view, value.size)]))
+            case .list(let value, let handler):
+                self.types.append(value)
+                self.cellForIndexPath = handler
+                }
         }
     }
     
     internal func setupCollectionView() {
         self.layout.delegate = self
         self.views.map{ $0.contents }.flatMap{ $0 }.forEach {
-            self.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: $0.identifier)
+            self.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: type(of: $0.view).reuseIdentifier)
+        }
+        self.types.forEach {
+            print("$0.reuseIdentifier:", $0, $0.reuseIdentifier)
+            self.register($0, forCellWithReuseIdentifier: $0.reuseIdentifier)
         }
         self.delegate = self
         self.dataSource = self
@@ -135,7 +151,7 @@ extension Grid: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let view = self.views[indexPath.section].contents[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: view.identifier, for: indexPath) as! GridCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: type(of: view.view).reuseIdentifier, for: indexPath) as! GridCollectionViewCell
         cell.view = view.view
         return cell
     }

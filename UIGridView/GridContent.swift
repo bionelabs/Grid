@@ -53,3 +53,10 @@ public func ForEach<T>(_ items: [T], handle: (T) -> UIView) -> Grid.Container {
     }
     return Grid.Container.group([.size(.auto), .column(1)], views.map{ ($0, .auto)})
 }
+
+public func List<T: UICollectionViewCell, Z>(cell: T.Type, items: [Z], handle: @escaping (T, Z) -> T) -> Grid.Container {
+    return Grid.Container.list(cell, handleCell: { indexPath, cell in
+        let item = items[indexPath.row]
+        return handle(cell as! T, item)
+    })
+}

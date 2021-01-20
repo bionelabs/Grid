@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		7348AB4025B7479500CCFF79 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7348AB3F25B7479500CCFF79 /* View.swift */; };
 		7348AB4725B747B500CCFF79 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7348AB4625B747B500CCFF79 /* ViewModel.swift */; };
+		735C7BE225B7BEB700675D2E /* UIView+Resuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C7BE125B7BEB700675D2E /* UIView+Resuse.swift */; };
+		735C7BE825B7C32500675D2E /* ViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 735C7BE725B7C32500675D2E /* ViewCell.swift */; };
 		739CCCA8256F43EE00CEA55E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCA7256F43EE00CEA55E /* AppDelegate.swift */; };
 		739CCCAC256F43EE00CEA55E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 739CCCAB256F43EE00CEA55E /* ViewController.swift */; };
 		739CCCB1256F43EF00CEA55E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 739CCCB0256F43EF00CEA55E /* Assets.xcassets */; };
@@ -84,6 +86,8 @@
 /* Begin PBXFileReference section */
 		7348AB3F25B7479500CCFF79 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		7348AB4625B747B500CCFF79 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		735C7BE125B7BEB700675D2E /* UIView+Resuse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Resuse.swift"; sourceTree = "<group>"; };
+		735C7BE725B7C32500675D2E /* ViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCell.swift; sourceTree = "<group>"; };
 		739CCCA4256F43EE00CEA55E /* Grid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		739CCCA7256F43EE00CEA55E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		739CCCAB256F43EE00CEA55E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 				739CCCAB256F43EE00CEA55E /* ViewController.swift */,
 				7348AB3F25B7479500CCFF79 /* View.swift */,
 				7348AB4625B747B500CCFF79 /* ViewModel.swift */,
+				735C7BE725B7C32500675D2E /* ViewCell.swift */,
 			);
 			path = MVC;
 			sourceTree = "<group>";
@@ -238,6 +243,7 @@
 				73FAC263256F989D0028FBF7 /* Info.plist */,
 				73F0B9ED25717553003A7E54 /* ColorView.swift */,
 				73C363B3257D3083002D9806 /* GridContent.swift */,
+				735C7BE125B7BEB700675D2E /* UIView+Resuse.swift */,
 			);
 			path = UIGridView;
 			sourceTree = "<group>";
@@ -458,6 +464,7 @@
 				73C363B9257F4198002D9806 /* PadingLabel.swift in Sources */,
 				739CCCAC256F43EE00CEA55E /* ViewController.swift in Sources */,
 				7348AB4025B7479500CCFF79 /* View.swift in Sources */,
+				735C7BE825B7C32500675D2E /* ViewCell.swift in Sources */,
 				73C363BB257F41D9002D9806 /* Label.swift in Sources */,
 				7348AB4725B747B500CCFF79 /* ViewModel.swift in Sources */,
 				739CCCA8256F43EE00CEA55E /* AppDelegate.swift in Sources */,
@@ -485,6 +492,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				73F0B9EE25717553003A7E54 /* ColorView.swift in Sources */,
+				735C7BE225B7BEB700675D2E /* UIView+Resuse.swift in Sources */,
 				73FAC27E256F98A80028FBF7 /* GridCollectionViewCell.swift in Sources */,
 				73FAC280256F98A80028FBF7 /* Grid.swift in Sources */,
 				73C363B4257D3083002D9806 /* GridContent.swift in Sources */,
