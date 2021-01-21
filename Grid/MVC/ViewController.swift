@@ -18,7 +18,7 @@ extension UIScreen {
 
 class ViewController: UIViewController {
     
-    var girdView: View = View(viewModel: ViewModel())
+    var girdView: GridView = GridView(viewModel: ViewModel())
     
     @objc func leftBarButtonItemDidTap() {
         self.girdView.randoom()

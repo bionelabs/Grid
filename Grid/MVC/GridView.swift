@@ -9,7 +9,7 @@
 import UIKit
 import UIGridView
 
-class View: Grid {
+class GridView: Grid {
     
     var viewModel: ViewModel
     
@@ -34,22 +34,35 @@ class View: Grid {
                 ),
                 size: .fit(50)
             ),
-//            List(
-//                cell: ViewCell.self,
-//                items: self.viewModel.practiceItems
-//            ) { (cell, item) -> ViewCell in
-//                return cell
-//            },
             ForEach(
                 attributes: [
-                    .column(Int.random(in: 1...2)),
-                    .size(.auto)
+                    .column(Int.random(in: 1...5)),
+                    .size(.fit(Float.random(in: 80...300)))
                 ],
-                items: self.viewModel.practiceItems) { (item) -> UIView in
+                items: self.viewModel.number) { (item) -> UIView in
                 return PadingLabel(
                     .font(UIFont.boldSystemFont(ofSize: 16)),
                     .background(UIColor.random),
-                    .text(item),
+                    .text("\(item)"),
+                    .cornerRadius(2)
+                )
+            },
+            Content(
+                PadingLabel(
+                    .text("Practice")
+                ),
+                size: .fit(50)
+            ),
+            ForEach(
+                attributes: [
+                    .column(Int.random(in: 1...5)),
+                    .size(.fit(Float.random(in: 80...300)))
+                ],
+                items: self.viewModel.number) { (item) -> UIView in
+                return PadingLabel(
+                    .font(UIFont.boldSystemFont(ofSize: 16)),
+                    .background(UIColor.random),
+                    .text("\(item)"),
                     .cornerRadius(2)
                 )
             }

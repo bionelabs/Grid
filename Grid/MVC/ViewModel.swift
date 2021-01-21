@@ -9,6 +9,11 @@
 import UIKit
 
 class ViewModel {
+    
+    
+    let number: [Int] = [Int](0...150)
+    
+    
 
     let menuItems: [String] = [
         "English Anytime",

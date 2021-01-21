@@ -8,12 +8,6 @@
 
 import UIKit
 
-extension NSObjectProtocol {
-    var className: String {
-        return String(describing: Self.self)
-    }
-}
-
 public extension Grid {
     
     typealias Element = (view: UIView, size: Grid.Size)
@@ -40,7 +34,6 @@ public extension Grid {
     enum Container {
         case content(Grid.Element)
         case group([GroupAttributes], [Grid.Element])
-        case list(UICollectionViewCell.Type, handleCell: (IndexPath, UICollectionViewCell) -> UICollectionViewCell)
     }
 }
 
@@ -49,7 +42,7 @@ public extension Grid {
     func render(_ containers: Container...) {
         self.containers = containers
         self.attributes = []
-        self.setUpParamesters()
+        self.setupParamesters()
         self.setupCollectionView()
         UIView.animate(withDuration: 0.0) {
             self.reloadData()
@@ -59,7 +52,7 @@ public extension Grid {
     func render(attributes: [Attributes], _ containers: Container...) {
         self.containers = containers
         self.attributes = attributes
-        self.setUpParamesters()
+        self.setupParamesters()
         self.setupCollectionView()
         UIView.animate(withDuration: 0.0) {
             self.reloadData()
@@ -73,7 +66,6 @@ open class Grid: UICollectionView {
     internal typealias ContentView = (view: UIView, size: Grid.Size)
     internal typealias ContentData = (attributes: [GroupAttributes], contents: [ContentView])
     
-    internal var types: [UICollectionViewCell.Type] = []
     internal var views: [ContentData] = []
     
     internal var containers: [Container]
@@ -89,11 +81,11 @@ open class Grid: UICollectionView {
         self.layout.estimatedItemSize = GirdLayout.automaticSize
         self.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
         self.layout.headerHeight = 0
-        self.setUpParamesters()
+        self.setupParamesters()
         self.setupCollectionView()
     }
     
-    internal func setUpParamesters() {
+    internal func setupParamesters() {
         
         for attribute in self.attributes {
             switch attribute {
@@ -107,7 +99,6 @@ open class Grid: UICollectionView {
         }
         
         self.views = []
-        self.types = []
         for param in self.containers {
             switch param {
             // views
@@ -116,21 +107,17 @@ open class Grid: UICollectionView {
                 self.views.append((attributes, contentView))
             case .content(let value):
                 self.views.append(([.column(1)], [(value.view, value.size)]))
-            case .list(let value, let handler):
-                self.types.append(value)
-                self.cellForIndexPath = handler
-                }
+            }
         }
     }
     
     internal func setupCollectionView() {
         self.layout.delegate = self
         self.views.map{ $0.contents }.flatMap{ $0 }.forEach {
-            self.register(GridCollectionViewCell.self, forCellWithReuseIdentifier: type(of: $0.view).reuseIdentifier)
-        }
-        self.types.forEach {
-            print("$0.reuseIdentifier:", $0, $0.reuseIdentifier)
-            self.register($0, forCellWithReuseIdentifier: $0.reuseIdentifier)
+            self.register(
+                View.self,
+                forCellWithReuseIdentifier: type(of: $0.view).reuseIdentifier
+            )
         }
         self.delegate = self
         self.dataSource = self
@@ -150,9 +137,14 @@ extension Grid: UICollectionViewDataSource {
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let view = self.views[indexPath.section].contents[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: type(of: view.view).reuseIdentifier, for: indexPath) as! GridCollectionViewCell
-        cell.view = view.view
+        let content = self.views[indexPath.section].contents[indexPath.row]
+        
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: type(of: content.view).reuseIdentifier,
+            for: indexPath
+        ) as! View
+        
+        cell.view = content.view
         return cell
     }
     
