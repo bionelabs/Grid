@@ -10,7 +10,7 @@ import UIKit
 
 public extension Grid {
     
-    typealias Element = (view: UIView, size: Grid.Size)
+    typealias Element = (view: (Int, Grid.View) -> (), size: Grid.Size)
     
     enum Size {
         case size(Float, Float)
@@ -63,7 +63,7 @@ public extension Grid {
 
 open class Grid: UICollectionView {
     
-    internal typealias ContentView = (view: UIView, size: Grid.Size)
+    internal typealias ContentView = (view: (Int, Grid.View) -> (), size: Grid.Size)
     internal typealias ContentData = (attributes: [GroupAttributes], contents: [ContentView])
     
     internal var views: [ContentData] = []
@@ -115,7 +115,7 @@ open class Grid: UICollectionView {
         self.layout.delegate = self
         self.views.map{ $0.contents }.flatMap{ $0 }.forEach {
             self.register(
-                View.self,
+                type(of: $0.view),
                 forCellWithReuseIdentifier: type(of: $0.view).reuseIdentifier
             )
         }
@@ -138,13 +138,8 @@ extension Grid: UICollectionViewDataSource {
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let content = self.views[indexPath.section].contents[indexPath.row]
-        
-        let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: type(of: content.view).reuseIdentifier,
-            for: indexPath
-        ) as! View
-        
-        cell.view = content.view
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: type(of: content.view).reuseIdentifier, for: indexPath) as! Grid.View
+        content.view(indexPath.row, cell)
         return cell
     }
     

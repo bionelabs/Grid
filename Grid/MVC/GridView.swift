@@ -28,43 +28,9 @@ class GridView: Grid {
                 .interitemSpacing(2),
                 .lineSpacing(2),
             ],
-            Content(
-                PadingLabel(
-                    .text("Practice")
-                ),
-                size: .fit(50)
-            ),
-            ForEach(
-                attributes: [
-                    .column(Int.random(in: 1...5)),
-                    .size(.fit(Float.random(in: 80...300)))
-                ],
-                items: self.viewModel.number) { (item) -> UIView in
-                return PadingLabel(
-                    .font(UIFont.boldSystemFont(ofSize: 16)),
-                    .background(UIColor.random),
-                    .text("\(item)"),
-                    .cornerRadius(2)
-                )
-            },
-            Content(
-                PadingLabel(
-                    .text("Practice")
-                ),
-                size: .fit(50)
-            ),
-            ForEach(
-                attributes: [
-                    .column(Int.random(in: 1...5)),
-                    .size(.fit(Float.random(in: 80...300)))
-                ],
-                items: self.viewModel.number) { (item) -> UIView in
-                return PadingLabel(
-                    .font(UIFont.boldSystemFont(ofSize: 16)),
-                    .background(UIColor.random),
-                    .text("\(item)"),
-                    .cornerRadius(2)
-                )
+            ForEach(attributes: [.column(3), .size(.fit(Float.random(in: 50...200)))], items: self.viewModel.number) { content in
+                cell.text = "\(item)"
+                return content
             }
         )
     }

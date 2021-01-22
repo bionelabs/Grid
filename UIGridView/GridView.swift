@@ -8,53 +8,17 @@
 
 import UIKit
 
-extension Grid {
+public extension Grid {
     
-    internal class View: UICollectionViewCell {
+    class View: UICollectionViewCell {
         
-        private var _view: UIView?
-
-        var view: UIView? {
-            get {
-                return self._view
-            }
-            set {
-                if let view = newValue {
-                    if let oldView = self._view {
-                        oldView.removeFromSuperview()
-                    }
-                    self._view = newValue
-                    self.contentView.addSubview(view)
-                    view.translatesAutoresizingMaskIntoConstraints = false
-                    
-                    let contraints: [NSLayoutConstraint] =
-                        NSLayoutConstraint.constraints(
-                            withVisualFormat: "H:|-0-[v]-0-|",
-                            options: [],
-                            metrics: nil,
-                            views: ["v": view]
-                        ) + NSLayoutConstraint.constraints(
-                            withVisualFormat: "V:|-0-[v]-0-|",
-                            options: [],
-                            metrics: nil,
-                            views: ["v": view]
-                        )
-                    
-                    self.contentView.addConstraints(contraints)
-                } else {
-                    print("SDJHGFDJSGDFJSD")
-                }
-            }
-        }
-        
-        override func prepareForReuse() {
+        public override func prepareForReuse() {
             super.prepareForReuse()
         }
         
         override init(frame: CGRect) {
             super.init(frame: frame)
             self.backgroundColor = .lightGray
-            self.contentView.backgroundColor = .clear
         }
         
         required init?(coder: NSCoder) {
@@ -63,7 +27,7 @@ extension Grid {
         
         private var isHeightCalculated: Bool = false
         
-        override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+        public override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
             if !isHeightCalculated {
                 layoutIfNeeded()
                 let targetSize = CGSize(width: layoutAttributes.size.width, height: layoutAttributes.size.height)
