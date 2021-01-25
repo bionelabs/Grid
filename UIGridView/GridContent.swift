@@ -8,59 +8,65 @@
 
 import UIKit
 
-//public func Color(_ color: UIColor) -> Grid.Container {
-//    let view = UIView()
-//    view.backgroundColor = color
-//    return Grid.Container.content((view, .square))
-//}
-
-public func Content(_ view: Grid.View, size: Grid.Size = .auto) -> Grid.Container {
-    return Grid.Container.content((view, size))
+public func Image(_ attributes: Grid.View.Image.Attributes...) -> Grid.Container {
+    func handler(row: Int, view: Grid.View) -> () {
+        let label: Grid.View.Image = view as! Grid.View.Image
+        label.backgroundColor = .clear
+        label.render(attributes)
+    }
+    
+    let elememt: (
+        view: Grid.ViewType,
+        size: Grid.Size,
+        handle: (Int, Grid.View
+        ) -> Void) = (Grid.View.Image.self, .auto, handler)
+    return Grid.Container.content(elememt)
 }
 
-//public func Group(attributes: [Grid.GroupAttributes] = [.column(1), .size(.auto)], _ views: UIView...) -> Grid.Container {
-//    var size: Grid.Size = .auto
-//    for attibute in attributes {
-//        if case let Grid.GroupAttributes.size(value) = attibute {
-//            size = value
-//            break
-//        }
-//    }
-//    return Grid.Container.group(attributes, views.map{ ($0, size)})
-//}
 
-public func ForEach<T, Z: Grid.View>(attributes: [Grid.GroupAttributes] = [.column(1), .size(.auto)], items: [T], handle: (T, Z) -> Z) -> Grid.Container {
+public func Label(_ attributes: Grid.View.Label.Attributes...) -> Grid.Container {
+    func handler(row: Int, view: Grid.View) -> () {
+        let label: Grid.View.Label = view as! Grid.View.Label
+        label.backgroundColor = .clear
+        label.render(attributes)
+    }
+    
+    let elememt: (
+        view: Grid.ViewType,
+        size: Grid.Size,
+        handle: (Int, Grid.View
+        ) -> Void) = (Grid.View.Label.self, .auto, handler)
+    return Grid.Container.content(elememt)
+}
+
+public func List<T, Z: Grid.View>(attributes: [Grid.GroupAttributes] = [.column(1), .size(.auto)], items: [T], handle: @escaping (T, Z) -> Z) -> Grid.Container {
+    
     var size: Grid.Size = .auto
-
     for attibute in attributes {
         if case let Grid.GroupAttributes.size(value) = attibute {
             size = value
             break
         }
     }
-
-    var views: [(Int, Grid.View) -> ()] = []
-
-    for (row, item) in items.enumerated() {
-        let cell: T = ()
-        views.append(handle(item, ))
+    
+    var views: [(
+        view: Grid.ViewType,
+        size: Grid.Size,
+        handle: (Int, Grid.View) -> Void
+    )] = []
+    
+    func handler(row: Int, view: Grid.View) -> () {
+        let _ = handle(items[row], view as! Z)
     }
-
+    
+    for _ in items {
+        let elememt: (
+            view: Grid.ViewType,
+            size: Grid.Size,
+            handle: (Int, Grid.View
+            ) -> Void) = (Z.self, size, handler)
+        views.append(elememt)
+    }
+    
     return Grid.Container.group(attributes, views)
 }
-
-//
-//public func ForEach<T>(_ items: [T], handle: (T) -> Grid.View) -> Grid.Container {
-//    var views: [Grid.View] = []
-//    for item in items {
-//        views.append(handle(item))
-//    }
-//    return Grid.Container.group([.size(.auto), .column(1)], views.map{ ($0, .auto)})
-//}
-
-//public func List<T: UICollectionViewCell, Z>(cell: T.Type, items: [Z], handle: @escaping (T, Z) -> T) -> Grid.Container {
-//    return Grid.Container.list(cell, handleCell: { indexPath, cell in
-//        let item = items[indexPath.row]
-//        return handle(cell as! T, item)
-//    })
-//}

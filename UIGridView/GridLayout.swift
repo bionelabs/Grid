@@ -73,6 +73,7 @@ internal class GirdLayout: UICollectionViewLayout {
     
     internal override func prepare() {
         super.prepare()
+        print("prepare")
         cleaunup()
         
         guard let collectionView = collectionView else { return }

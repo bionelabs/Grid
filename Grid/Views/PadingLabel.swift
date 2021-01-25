@@ -29,6 +29,51 @@ class PadingLabel: UILabel {
         case textAlignment(NSTextAlignment)
     }
     
+    public func render(_ attributes: PadingLabel.Attributes...) {
+        for attribute in attributes {
+            switch attribute {
+            case .font(let font):
+                self.font = font
+            case .textAlignment(let value):
+                self.textAlignment = value
+            case .text(let value):
+                self.text = value
+            case .background(let value):
+                self.backgroundColor = value
+            case .cornerRadius(let value):
+                self.layer.masksToBounds = true
+                self.layer.cornerRadius = value
+            case .textColor(let value):
+                self.textColor = value
+            case .padding(let padding):
+                var left: CGFloat = 0
+                var right: CGFloat = 0
+                var top: CGFloat = 0
+                var bottom: CGFloat = 0
+                for type in padding {
+                    switch type {
+                    case .all(let value):
+                        left = value
+                        right = value
+                        top = value
+                        bottom = value
+                    case .left(let value):
+                        left = value
+                    case .right(let value):
+                        right = value
+                    case .bottom(let value):
+                        bottom = value
+                    case .top(let value):
+                        top = value
+                    }
+                }
+                
+                self.frame = CGRect(x: 0, y: 0, width: self.frame.width + left + right, height: self.frame.height + top + bottom)
+                self.insets = UIEdgeInsets(top: top, left: left, bottom: bottom, right: right)
+            }
+        }
+    }
+    
     convenience init(_ attributes: PadingLabel.Attributes...) {
         self.init(frame: .zero)
         for attribute in attributes {

@@ -11,8 +11,38 @@ import UIKit
 class ViewModel {
     
     
-    let number: [Int] = [Int](0...150)
+    var number: [Int] {
+        
+    return [Int](0...Int.random(in: 50...1000))
+    }
     
+    let images: [UIImage] = [
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+        UIImage(named: "HomeFolderIcon")!,
+    ]
     
 
     let menuItems: [String] = [

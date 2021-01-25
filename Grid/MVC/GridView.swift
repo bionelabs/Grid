@@ -25,12 +25,48 @@ class GridView: Grid {
     @objc func randoom() {
         self.render(
             attributes: [
-                .interitemSpacing(2),
-                .lineSpacing(2),
+                .interitemSpacing(1),
+                .lineSpacing(1),
             ],
-            ForEach(attributes: [.column(3), .size(.fit(Float.random(in: 50...200)))], items: self.viewModel.number) { content in
-                cell.text = "\(item)"
-                return content
+            Label(
+                .text("KJSHFLKJSFH:SFJKHLSFKJHSLF"),
+                .background(.red)
+            ),
+//            Image(
+//                .contentMode(.scaleAspectFit),
+//                .image(UIImage(named: "HomeFolderIcon")!)
+//            ),
+            List(
+                attributes: [
+                    .column(Int.random(in: 1...3)),
+                    .size(.auto)
+                ],
+                items: ["SFSF", "JHSFGJSFGJ"]) { (item, view) -> Grid.View.Label in
+                view.text = item
+                return view
+            },
+//            List(
+//                attributes: [
+//                    .column(Int.random(in: 2...5)),
+//                    .size(.auto)
+//                ],
+//                items: self.viewModel.images) { (item, view)  -> Grid.View.Image  in
+//                view.render(
+//                    .background(.lightGray),
+//                    .image(item),
+//                    .contentMode(.scaleAspectFit)
+//                )
+//                return view
+//            },
+            List(
+                attributes: [
+                    .column(Int.random(in: 1...2)),
+                    .size(.auto)
+                ],
+                items: self.viewModel.practiceItems) { (item, view)  -> Grid.View.Label  in
+                view.backgroundColor = .lightGray
+                view.text = "\(item)"
+                return view
             }
         )
     }

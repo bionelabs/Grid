@@ -10,7 +10,9 @@ import UIKit
 
 public extension Grid {
     
-    typealias Element = (view: (Int, Grid.View) -> (), size: Grid.Size)
+    typealias ViewType = Grid.View.Type
+    
+    typealias Element = (view: Grid.ViewType, size: Grid.Size, handle: (Int, Grid.View) -> Void)
     
     enum Size {
         case size(Float, Float)
@@ -63,11 +65,6 @@ public extension Grid {
 
 open class Grid: UICollectionView {
     
-    internal typealias ContentView = (view: (Int, Grid.View) -> (), size: Grid.Size)
-    internal typealias ContentData = (attributes: [GroupAttributes], contents: [ContentView])
-    
-    internal var views: [ContentData] = []
-    
     internal var containers: [Container]
     internal var attributes: [Attributes]
     
@@ -97,27 +94,19 @@ open class Grid: UICollectionView {
                 self.layout.sectionInset = value
             }
         }
-        
-        self.views = []
-        for param in self.containers {
-            switch param {
-            // views
-            case .group(let attributes, let value):
-                let contentView: [ContentView] = value.map { ($0.view, $0.size)}
-                self.views.append((attributes, contentView))
-            case .content(let value):
-                self.views.append(([.column(1)], [(value.view, value.size)]))
-            }
-        }
     }
     
     internal func setupCollectionView() {
         self.layout.delegate = self
-        self.views.map{ $0.contents }.flatMap{ $0 }.forEach {
-            self.register(
-                type(of: $0.view),
-                forCellWithReuseIdentifier: type(of: $0.view).reuseIdentifier
-            )
+        for container in self.containers {
+            switch container {
+            case .content(let element):
+                self.register(element.view, forCellWithReuseIdentifier: element.view.reuseIdentifier)
+            case .group(_, let elements):
+                elements.forEach { (element) in
+                    self.register(element.view, forCellWithReuseIdentifier: element.view.reuseIdentifier)
+                }
+            }
         }
         self.delegate = self
         self.dataSource = self
@@ -133,18 +122,33 @@ open class Grid: UICollectionView {
 extension Grid: UICollectionViewDataSource {
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return self.views.count
+        return self.containers.count
     }
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let content = self.views[indexPath.section].contents[indexPath.row]
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: type(of: content.view).reuseIdentifier, for: indexPath) as! Grid.View
-        content.view(indexPath.row, cell)
-        return cell
+        let container: Grid.Container = self.containers[indexPath.section]
+        switch container {
+        case .content(let element):
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: element.view.reuseIdentifier, for: indexPath) as! Grid.View
+            element.handle(indexPath.row, cell)
+            return cell
+        case .group(_, let elements):
+            let element = elements[indexPath.row]
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: element.view.reuseIdentifier, for: indexPath) as! Grid.View
+            element.handle(indexPath.row, cell)
+            return cell
+        }
+        
     }
     
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.views[section].contents.count
+        let container: Grid.Container = self.containers[section]
+        switch container {
+        case .content(_):
+            return 1
+        case .group(_, let elements):
+            return elements.count
+        }
     }
 }
 
@@ -155,31 +159,42 @@ extension Grid: UICollectionViewDelegate {
 extension Grid: GirdLayoutDelegate {
     
     func collectionViewColumn(for section: Int) -> Int {
-        var column: Int = 0
-        var size: Grid.Size = .auto
-        for atribute in self.views[section].attributes {
-            
-            switch atribute {
-            case .column(let value):
-                column =  value
-            case .size(let value):
-                size = value
-            }
-        }
-        
-        if column == 0, case let Grid.Size.size(width, _) = size {
-            return Int((self.bounds.width)/(CGFloat(width) - (self.layout.minimumInteritemSpacing*2)))
-        }
-        
-        if column == 0 {
+        let container: Grid.Container = self.containers[section]
+        switch container {
+        case .content(_):
             return 1
+        case .group(let attributes, _):
+            var column: Int = 0
+            var size: Grid.Size = .auto
+            for atribute in attributes {
+                switch atribute {
+                case .column(let value):
+                    column =  value
+                case .size(let value):
+                    size = value
+                }
+            }
+            
+            if column == 0, case let Grid.Size.size(width, _) = size {
+                return Int((self.bounds.width)/(CGFloat(width) - (self.layout.minimumInteritemSpacing*2)))
+            }
+            
+            if column == 0 {
+                return 1
+            }
+            
+            return column
         }
         
-        return column
     }
     
     func collectionView(_ collectionView: UICollectionView, layout: GirdLayout, sizeForItemAt indexPath: IndexPath) -> Grid.Size {
-        let view = self.views[indexPath.section].contents[indexPath.row]
-        return view.size
+        let container: Grid.Container = self.containers[indexPath.section]
+        switch container {
+        case .content(let element):
+            return element.size
+        case .group(_, let elements):
+            return elements[indexPath.row].size
+        }
     }
 }
